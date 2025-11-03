@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Emergency Hotline - Updated</title>
+  <title>Emergency Hotline</title>
+  <link rel="shortcut icon" href="assets/emergency.png" type="image/x-icon">
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,179 +13,65 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700;900&display=swap" rel="stylesheet">
   
   <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" />
+
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="index style/index.css">
 
-  <style>
-   /* ⭐⭐ পরিবর্তন ২: Roboto ফন্ট পরিবার CSS-এ সেট করা হলো ⭐⭐ */
-   body {
-        font-family: 'Roboto', sans-serif;
-    }
-
-   /* 1. CSS অ্যানিমেশন কীফ্রেম */
-@keyframes marquee {
-    0% {
-        transform: translateX(100%); 
-    }
-    100% {
-        transform: translateX(-100%); 
-    }
-}
-
-/* 2. টেক্সট এলিমেন্টে অ্যানিমেশন প্রয়োগ */
-#animatedTitle {
-    /* অ্যানিমেশন নিয়ন্ত্রণ: 12s করা হলো, যা আরও মসৃণ দেখাবে */
-    animation: marquee 12s ease-in-out infinite; 
-    
-    /* অক্ষরের ফাঁকা স্থান বাড়ানো হলো (ট্র্যাকিং) */
-    letter-spacing: 4px; 
-}
-
-/* weather section */
-/* লোড হওয়ার সময় হালকা উপরে ওঠা ওFade হওয়া */
-    @keyframes fadeInUp {
-        0% {
-            opacity: 0;
-            transform: translateY(15px);
-        }
-        100% {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-    
-    .animate-fadeInUp {
-        animation: fadeInUp 1s ease-out forwards;
-    }
-
-
-    /* search bar style */
-/* কাস্টম CSS */
-
-/* ১. টাইটেল সেকশন হালকা ওপর থেকে নিচে আসবে */
-@keyframes fadeInDown {
-    0% {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.animate-fadeInDown {
-    animation: fadeInDown 1s ease-out forwards;
-}
-
-/* ২. প্যারাগ্রাফের জন্য ধীর গতির পালস (Pulse) */
-@keyframes pulseSlow {
-    0%, 100% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0.8;
-    }
-}
-
-.animate-pulse-slow {
-    animation: pulseSlow 4s infinite ease-in-out; /* ৪ সেকেন্ডে একবার পালস করবে */
-}
-
-
-
-
-    /* Base Soft Card Style */
-    .soft-card {
-      background-color: #FFFFFF;
-      border-radius: 1rem;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      /* নতুন ট্রানজিশন: হোভার ইফেক্টের জন্য */
-      transition: all 0.3s ease-in-out; 
-    }
-
-    /* Card Hover Animation */
-    .soft-card:hover {
-        transform: translateY(-4px) scale(1.01); 
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15); 
-    }
-    
-    /* Search Bar Placeholder Color */
-    #searchBar::placeholder {
-      color: black;
-      opacity: 0.7;
-    }
-
-    /* Input Text Color */
-    #searchBar {
-      color: black;
-    }
-
-    /* Smooth Entrance for Cards (Keyframes) */
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Card Entrance Class */
-    .card-item {
-        animation: fadeIn 0.5s ease-out forwards; 
-        opacity: 0; 
-    }
-  </style>
 </head>
+
 <body>
 <nav class="navbar bg-white bg-opacity-70 shadow sticky top-0 z-50">
-  <div class="container mx-auto px-4 flex flex-col sm:flex-row items-center justify-between py-2 gap-3 sm:gap-0">
+    <div class="container mx-auto px-4 flex flex-col sm:flex-row items-center justify-between py-2 gap-3 sm:gap-0">
     
-    <div class="flex items-center gap-3">
-      <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full ring ring-white ring-offset-2 ring-offset-emerald-400 p-1">
-        <img src="./assets/logo-dark.png" alt="Logo" class="w-full h-full object-contain rounded-full" />
-      </div>
-      <span class="text-xl sm:text-2xl font-bold leading-tight text-green-800">
-        Emergency <br class="hidden sm:block" /> Service
-      </span>
-    </div>
+        <div class="flex items-center gap-3">
+            <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full ring ring-white ring-offset-2 ring-offset-emerald-400 p-1">
+                <img src="./assets/logo-dark.png" alt="Logo" class="w-full h-full object-contain rounded-full" />
+            </div>
+            <span class="text-xl sm:text-2xl font-bold leading-tight text-green-800">
+                Emergency <br class="hidden sm:block" /> Service
+            </span>
+        </div>
 
-    <div 
-        id="marqueeContainer" 
-        class="hidden sm:block overflow-hidden flex-grow mx-4 min-w-[200px]" 
-        style="text-align: center;"> 
-        <h1 
-            id="animatedTitle" 
-            class="whitespace-nowrap text-3xl font-black text-red-700 tracking-widest drop-shadow-[0_4px_8px_rgba(49,46,129,0.8)]">
-            RAJSHAHI CITY EMERGENCY SERVICE DIRECTORY
-        </h1>
+        <div 
+            id="marqueeContainer" 
+            class="hidden sm:block overflow-hidden flex-grow mx-4 min-w-[200px]" 
+            style="text-align: center;"> 
+            <h1 
+                id="animatedTitle" 
+                class="whitespace-nowrap text-3xl font-black text-red-700 tracking-widest drop-shadow-[0_4px_8px_rgba(49,46,129,0.8)]">
+                RAJSHAHI CITY EMERGENCY SERVICE DIRECTORY
+            </h1>
+        </div>
+        <div class="flex items-center gap-2 sm:gap-3">
+            <div class="flex items-center bg-green-50 rounded-full px-3 py-1 gap-1">
+                <span class="text-sm font-semibold text-black" id="heartCount">0</span>
+                <i class="fa-solid fa-heart text-red-500"></i>
+            </div>
+            <button id="copyPill" class="btn btn-success btn-sm rounded-full text-white normal-case px-4">
+                <span id="copyCount">0</span> Copy
+            </button>
+        </div>
     </div>
-    <div class="flex items-center gap-2 sm:gap-3">
-      <div class="flex items-center bg-green-50 rounded-full px-3 py-1 gap-1">
-        <span class="text-sm font-semibold text-black" id="heartCount">0</span>
-        <i class="fa-solid fa-heart text-red-500"></i>
-      </div>
-      <button id="copyPill" class="btn btn-success btn-sm rounded-full text-white normal-case px-4">
-        <span id="copyCount">0</span> Copy
-      </button>
-    </div>
-  </div>
 </nav>
 
 <header class="w-full">
-  <div class="hero min-h-[220px] bg-gradient-to-br from-green-900 via-green-900 to-emerald-900 text-white">
-    <div class="hero-content text-center w-full">
-      <div class="flex flex-col items-center w-full">
-        <div class="mb-4">
-          <div class="w-20 h-20 md:w-24 md:h-24 rounded-full ring ring-white ring-offset-2 ring-offset-emerald-400 bg-white p-1 flex items-center justify-center">
-            <img src="./assets/logo.png" alt="Gov Logo" class="w-full h-full object-contain rounded-full" />
-          </div>
+    <div class="hero min-h-[220px] bg-gradient-to-br from-green-900 via-green-900 to-emerald-900 text-white">
+        <div class="hero-content text-center w-full">
+            <div class="flex flex-col items-center w-full">
+                <div class="mb-4">
+                    <div class="w-20 h-20 md:w-24 md:h-24 rounded-full ring ring-white ring-offset-2 ring-offset-emerald-400 bg-white p-1 flex items-center justify-center">
+                        <img src="./assets/logo.png" alt="Gov Logo" class="w-full h-full object-contain rounded-full" />
+                    </div>
+                </div>
+                <h1 class="text-2xl md:text-3xl font-extrabold"> Rajshahi City Emergency Service Directory</h1>
+                <p class="text-sm md:text-base text-white/90 mt-2 px-4 max-w-2xl">
+                    Government Emergency Services at Your Fingertip - A Project by <strong> <i style="color: rgba(0, 0, 0, 0.616);"> Md Mahim Hosen </i> under the Government of the People's Republic of Bangladesh</strong>
+                </p>
+            </div>
         </div>
-        <h1 class="text-2xl md:text-3xl font-extrabold"> Rajshahi City Emergency Service Directory</h1>
-        <p class="text-sm md:text-base text-white/90 mt-2 px-4 max-w-2xl">
-          Government Emergency Services at Your Fingertip - A Project by <strong> <i style="color: rgba(0, 0, 0, 0.616);"> Md Mahim Hosen </i> under the Government of the People's Republic of Bangladesh</strong>
-        </p>
-      </div>
     </div>
-  </div>
 </header>
-<!-- weather -->
+
 <div 
     class="weather-widget-section bg-blue-50 border border-blue-200 rounded-xl shadow-xl p-6 mt-8 md:mt-12 transition-opacity duration-1000 animate-fadeInUp"
     style="animation-delay: 0.5s;"
@@ -209,101 +97,99 @@
     
 </div>
 
-<!-- searchbar -->
 <section class="bg-white bg-opacity-70 pt-0">
-  <main class="container mx-auto px-3 md:px-4 lg:px-6">
-    <div class="grid grid-cols-12 gap-4 md:gap-6">
+    <main class="container mx-auto px-3 md:px-4 lg:px-6">
+        <div class="grid grid-cols-12 gap-4 md:gap-6">
       
-      <section class="col-span-12 lg:col-span-9 mt-6 md:mt-10">
+            <section class="col-span-12 lg:col-span-9 mt-6 md:mt-10">
 
-        <div class="text-center mb-8 mt-4 animate-fadeInDown">
-    <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 tracking-tight mb-2">
-        <span class="text-blue-600 transition duration-500 hover:text-red-500">
-            রাজশাহী
-        </span> 
-        <span class="text-red-500">
-            হেল্পলাইন সার্ভিস
-        </span>
-    </h1>
-    <p class="text-lg text-gray-600 font-medium animate-pulse-slow">
-        আপনার প্রয়োজনীয় সকল জরুরি সেবা ও তথ্যে জানতে এখানে  সার্চ  করুন 
-    </p>
-</div>
+                <div class="text-center mb-8 mt-4 animate-fadeInDown">
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 tracking-tight mb-2">
+                        <span class="text-blue-600 transition duration-500 hover:text-red-500">
+                            রাজশাহী
+                        </span> 
+                        <span class="text-red-500">
+                            হেল্পলাইন সার্ভিস
+                        </span>
+                    </h1>
+                    <p class="text-lg text-gray-600 font-medium animate-pulse-slow">
+                        আপনার প্রয়োজনীয় সকল জরুরি সেবা ও তথ্যে জানতে এখানে  সার্চ  করুন 
+                    </p>
+                </div>
         
-        <div class="mb-6">
-          <label class="input input-bordered flex items-center gap-2 soft-card !p-0 !shadow-lg">
-            <input id="searchBar" type="text" class="grow bg-white rounded-l-2xl p-4 text-base" placeholder="সার্চ করুন (যেমন: পুলিশ, ফায়ার, ব্লাড ব্যাংক...)" />
-            <i class="fa-solid fa-search text-lg mr-4 text-gray-500"></i>
-          </label>
-        </div>
+                <div class="mb-6">
+                    <label class="input input-bordered flex items-center gap-2 soft-card !p-0 !shadow-lg">
+                        <input id="searchBar" type="text" class="grow bg-white rounded-l-2xl p-4 text-base" placeholder="সার্চ করুন (যেমন: পুলিশ, ফায়ার, ব্লাড ব্যাংক...)" />
+                        <i class="fa-solid fa-search text-lg mr-4 text-gray-500"></i>
+                    </label>
+                </div>
 
-        <div id="cardGrid"></div>
-      </section>
+                <div id="cardGrid"></div>
+            </section>
 
       
-<aside class="col-span-12 lg:col-span-3 mt-6 md:mt-44 **lg:ml-auto**">
-    <div class="soft-card bg-base-100 rounded-2xl p-4 md:p-5">
-      <div class="flex items-center justify-between mb-4">
-        <div class="flex items-center gap-2">
-          <span ><i class="fa-regular fa-clock"></i></span>
-          <h2 class="font-semibold text-lg text-black">Call History</h2>
+            <aside class="col-span-12 lg:col-span-3 mt-6 md:mt-44 lg:ml-auto">
+                <div class="soft-card bg-base-100 rounded-2xl p-4 md:p-5">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-2">
+                            <span ><i class="fa-regular fa-clock"></i></span>
+                            <h2 class="font-semibold text-lg text-black">Call History</h2>
+                        </div>
+                        <button id="clearHistory" class="btn btn !bg-[#00A63E] text-white">Clear</button>
+                    </div>
+                    <ul id="historyList" class="space-y-3 max-h-[520px] overflow-y-auto pr-2"></ul>
+                </div>
+            </aside>
         </div>
-        <button id="clearHistory" class="btn btn !bg-[#00A63E] text-white">Clear</button>
-      </div>
-      <ul id="historyList" class="space-y-3 max-h-[520px] overflow-y-auto pr-2"></ul>
-    </div>
-</aside>
-      </div>
-  </main>
+    </main>
 </section>
 
 <template id="cardTemplate">
-  <div class="soft-card bg-base-100 rounded-2xl p-5 flex flex-col gap-4 relative card-item">
+    <div class="soft-card bg-base-100 rounded-2xl p-5 flex flex-col gap-4 relative card-item">
     
-    <div class="flex justify-between items-start">
-      <div class="avatar">
-        <div class="w-8 h-8 rounded-xl bg-emerald-100 flex items-center justify-center text-2xl">
-            <img data-role="icon" src="" alt="Service Icon" class="w-6 h-6 object-contain"/>        
+        <div class="flex justify-between items-start">
+            <div class="avatar">
+                <div class="w-8 h-8 rounded-xl bg-emerald-100 flex items-center justify-center text-2xl">
+                    <img data-role="icon" src="" alt="Service Icon" class="w-6 h-6 object-contain"/>        
+                </div>
+            </div>
+            <button class="btn btn-ghost btn-circle btn-sm" data-role="heartBtn" aria-label="Add to favourites">
+                <i data-role="heartIcon" class="fa-solid fa-heart text-gray-400 hover:text-red-500"></i>
+            </button>
         </div>
-      </div>
-      <button class="btn btn-ghost btn-circle btn-sm" data-role="heartBtn" aria-label="Add to favourites">
-        <i data-role="heartIcon" class="fa-solid fa-heart text-gray-400 hover:text-red-500"></i>
-      </button>
-    </div>
 
-    <div>
-      <h2 class="font-bold text-xl leading-snug text-black" data-role="title">Service Name</h2>
-      <p class="text-sm text-base-content " data-role="subtitle">Department</p>
-    </div>
+        <div>
+            <h2 class="font-bold text-xl leading-snug text-black" data-role="title">Service Name</h2>
+            <p class="text-sm text-base-content " data-role="subtitle">Department</p>
+        </div>
 
-    <div>
-      <div class="text-2xl font-extrabold tracking-wide text-black" data-role="number">999</div>
-    </div>
+        <div>
+            <div class="text-2xl font-extrabold tracking-wide text-black" data-role="number">999</div>
+        </div>
 
-    <div class=" items-center justify-between mt-auto">
-      <div class="badge badge-outline text-sm block" data-role="badge">Category</div> <br>
-      <div class="flex  justify-between gap-2">
-        <button class="btn btn btn-outline" data-role="copyBtn">
-          <i class="fa-solid fa-copy mr-1"></i> Copy
-        </button>
-        
-        <button class="btn btn btn-outline text-indigo-600 border-indigo-600 hover:bg-indigo-600 hover:text-white" data-role="mapBtn">
-          <i class="fa-solid fa-map-location-dot mr-1"></i> Map
-        </button>
-        
-        <button class="btn btn btn-success text-white" data-role="callBtn">
-          <i class="fa-solid fa-phone-volume mr-1"></i> Call
-        </button>
-      </div>
-    </div>
+        <div class=" items-center justify-between mt-auto">
+            <div class="badge badge-outline text-sm block" data-role="badge">Category</div> <br>
+            <div class="flex  justify-between gap-2">
+                <button class="btn btn btn-outline" data-role="copyBtn">
+                    <i class="fa-solid fa-copy mr-1"></i> Copy
+                </button>
+                
+                <button class="btn btn btn-outline text-indigo-600 border-indigo-600 hover:bg-indigo-600 hover:text-white" data-role="mapBtn">
+                    <i class="fa-solid fa-map-location-dot mr-1"></i> Map
+                </button>
+                
+                <button class="btn btn btn-success text-white" data-role="callBtn">
+                    <i class="fa-solid fa-phone-volume mr-1"></i> Call
+                </button>
+            </div>
+        </div>
 
-  </div>
+    </div>
 </template>
-<!-- website linl -->
 
 <div class="doctor-links-section" style="margin-top: 40px; padding: 25px; border-radius: 10px; border: 1px solid #007bff; background-color: #e9f5ff; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
     
-    <h4 style="color: #007bff; margin-bottom: 20px; font-weight: 800; font-size: 1.4em; text-align: center;">
+    <h4 style="color: #007bff; margin-bottom: 20px; font-weight: 800; font-size: 1.4em; text-align: center; border-bottom: 1px solid #007bff; padding-bottom: 10px;">
         🏥 রাজশাহী-এর গুরুত্বপূর্ণ ক্লিনিক ও ডাক্তারদের তথ্যসূত্র
     </h4>
     
@@ -311,14 +197,14 @@
         
         <li style="margin-bottom: 15px; border-bottom: 1px solid #cce5ff; padding-bottom: 10px;">
             <a href="https://www.populardiagnostic.com/" target="_blank" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 1.1em; transition: color 0.3s;" onmouseover="this.style.color='#0056b3'" onmouseout="this.style.color='#1a1a1a'">
-                <span style="color: #28a745;">&#10004;</span> পপুলার ডায়াগনস্টিক সেন্টার লি: (রাজশাহী)
+                <span style="color: #28a745;">&#10004;</span> পপুলার ডায়াগনস্টিক সেন্টার লি: (রাজশাহী)
             </a>
-            <span style="font-size: 0.9em; color: #555; display: block; margin-top: 2px; padding-left: 20px;">(ডাক্তারদের তালিকা, চেম্বারের সময় ও সিরিয়ালের জন্য)</span>
+            <span style="font-size: 0.9em; color: #555; display: block; margin-top: 2px; padding-left: 20px;">(ডাক্তারদের তালিকা, চেম্বারের সময় ও সিরিয়ালের জন্য)</span>
         </li>
 
         <li style="margin-bottom: 15px; border-bottom: 1px solid #cce5ff; padding-bottom: 10px;">
             <a href="https://labaid.com.bd/en/diagnostic/labaid-diagnostic-rajshahi" target="_blank" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 1.1em; transition: color 0.3s;" onmouseover="this.style.color='#0056b3'" onmouseout="this.style.color='#1a1a1a'">
-                <span style="color: #28a745;">&#10004;</span> ল্যাবএইড ডায়াগনস্টিক, রাজশাহী শাখা
+                <span style="color: #28a745;">&#10004;</span> ল্যাবএইড ডায়াগনস্টিক, রাজশাহী শাখা
             </a>
             <span style="font-size: 0.9em; color: #555; display: block; margin-top: 2px; padding-left: 20px;">(বিশেষজ্ঞদের তথ্য ও অনলাইন রিপোর্ট ডাউনলোড)</span>
         </li>
@@ -351,11 +237,12 @@
             <span style="font-size: 0.9em; color: #555; display: block; margin-top: 2px; padding-left: 20px;">(ডাক্তার চেম্বার ও ডায়াগনস্টিক সেবা, **সঠিক লিংক বসান**)</span>
         </li>
       
-    </ul> 
+    </ul>  
 </div>
+
 <div class="doctor-links-section" style="margin-top: 40px; padding: 25px; border-radius: 10px; border: 1px solid #007bff; background-color: #e9f5ff; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
     
- <h4 style="color: #ffc107; margin-top: 30px; margin-bottom: 20px; font-weight: 800; font-size: 1.4em; text-align: center; border-top: 2px solid #ffc107; padding-top: 20px;">
+    <h4 style="color: #ffc107; margin-top: 30px; margin-bottom: 20px; font-weight: 800; font-size: 1.4em; text-align: center; border-top: 2px solid #ffc107; padding-top: 20px;">
         🎓 রাজশাহী-এর স্বনামধন্য শিক্ষা প্রতিষ্ঠান
     </h4>
     
@@ -538,7 +425,7 @@
     <div class="agency-links-section" style="margin-top: 40px; padding: 25px; border-radius: 10px; border: 1px solid #007bff; background-color: #e9f5ff; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
     
     <h4 style="color: #6f42c1; margin-bottom: 20px; font-weight: 800; font-size: 1.4em; text-align: center; border-top: 2px solid #6f42c1; padding-top: 20px;">
-        🏢 গুরুত্বপূর্ণ এজেন্সির ওয়েবসাইট লিঙ্ক
+        🏢 গুরুত্বপূর্ণ এজেন্সির ওয়েবসাইট লিঙ্ক
     </h4>
     
     <ul style="list-style-type: none; padding: 0;">
@@ -642,7 +529,7 @@
             <span style="font-size: 0.9em; color: #6c757d; display: block; margin-top: 2px; padding-left: 20px;">(রাজশাহী শহরের ঐতিহাসিক নিদর্শন)</span>
         </li>
         
-        <li style="margin-bottom: 15px; padding-bottom: 10px;">
+        <li style="margin-bottom: 15px; border-bottom: 1px dashed #ffd5c2; padding-bottom: 10px;">
             <a href="https://www.rajshahi.gov.bd/bn/site/view/tourist_spot" target="_blank" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 1.1em; transition: color 0.3s;" onmouseover="this.style.color='#cc3700'" onmouseout="this.style.color='#1a1a1a'">
                 <span style="color: #228b22;">&#127795;</span> শহীদ এ এইচ এম কামারুজ্জামান কেন্দ্রীয় উদ্যান ও চিড়িয়াখানা
             </a>
@@ -681,10 +568,10 @@
  
         
     </ul>
-</div>>
+</div>
 
+<div class="tourism-links-section" style="margin-top: 30px; padding: 25px; border-radius: 10px; border: 1px solid #ff4500; background-color: #fff8f5; box-shadow: 0 4px 12px rgba(255, 69, 0, 0.15);">
 
-<!-- picture -->
 <section class="bg-gray-50 py-12 md:py-20">
     <div class="text-center mb-10 px-4">
         <h1 class="text-4xl md:text-5xl font-extrabold text-indigo-700 leading-tight border-b-4 border-indigo-300 inline-block pb-2">
@@ -758,6 +645,7 @@
         </div>
     </div>
 </section>
+</div>
 
 
 
@@ -776,4 +664,4 @@
 
 <script src="index.js"></script>
 </body>
-</html >
+</html>

@@ -1,0 +1,113 @@
+
+   /* ⭐⭐ পরিবর্তন ২: Roboto ফন্ট পরিবার CSS-এ সেট করা হলো ⭐⭐ */
+   body {
+        font-family: 'Roboto', sans-serif;
+    }
+
+   /* 1. CSS অ্যানিমেশন কীফ্রেম */
+    @keyframes marquee {
+        0% {
+            transform: translateX(100%); 
+        }
+        100% {
+            transform: translateX(-100%); 
+        }
+    }
+
+    /* 2. টেক্সট এলিমেন্টে অ্যানিমেশন প্রয়োগ */
+    #animatedTitle {
+        /* অ্যানিমেশন নিয়ন্ত্রণ: 12s করা হলো, যা আরও মসৃণ দেখাবে */
+        animation: marquee 28s ease-in-out infinite; 
+        
+        /* অক্ষরের ফাঁকা স্থান বাড়ানো হলো (ট্র্যাকিং) */
+        letter-spacing: 4px; 
+    }
+
+    /* weather section */
+
+    /* লোড হওয়ার সময় হালকা উপরে ওঠা ওFade হওয়া */
+    @keyframes fadeInUp {
+        0% {
+            opacity: 0;
+            transform: translateY(15px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .animate-fadeInUp {
+        animation: fadeInUp 1s ease-out forwards;
+    }
+
+
+    /* search bar style */
+    /* ১. টাইটেল সেকশন হালকা ওপর থেকে নিচে আসবে */
+    @keyframes fadeInDown {
+        0% {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animate-fadeInDown {
+        animation: fadeInDown 1s ease-out forwards;
+    }
+
+    /* ২. প্যারাগ্রাফের জন্য ধীর গতির পালস (Pulse) */
+    @keyframes pulseSlow {
+        0%, 100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0.8;
+        }
+    }
+
+    .animate-pulse-slow {
+        animation: pulseSlow 4s infinite ease-in-out; /* ৪ সেকেন্ডে একবার পালস করবে */
+    }
+
+
+    /* Base Soft Card Style */
+    .soft-card {
+        background-color: #FFFFFF;
+        border-radius: 1rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        /* নতুন ট্রানজিশন: হোভার ইফেক্টের জন্য */
+        transition: all 0.3s ease-in-out; 
+    }
+
+    /* Card Hover Animation */
+    .soft-card:hover {
+        transform: translateY(-4px) scale(1.01); 
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15); 
+    }
+    
+    /* Search Bar Placeholder Color */
+    #searchBar::placeholder {
+        color: black;
+        opacity: 0.7;
+    }
+
+    /* Input Text Color */
+    #searchBar {
+        color: black;
+    }
+
+    /* Smooth Entrance for Cards (Keyframes) */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Card Entrance Class */
+    .card-item {
+        animation: fadeIn 0.5s ease-out forwards; 
+        opacity: 0; 
+    }
