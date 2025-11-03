@@ -11,26 +11,66 @@
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
+   /* 1. CSS অ্যানিমেশন কীফ্রেম - এটি অবশ্যই CSS-এ থাকতে হবে */
+@keyframes marquee {
+    0% {
+        transform: translateX(100%); /* ডান দিক থেকে শুরু */
+    }
+    100% {
+        transform: translateX(-100%); /* বাম দিকে শেষ */
+    }
+}
+
+/* 2. টেক্সট এলিমেন্টে অ্যানিমেশন প্রয়োগ */
+#animatedTitle {
+    /* অ্যানিমেশন নিয়ন্ত্রণ: 10 সেকেন্ড ধরে চলবে, ease-in-out গতিতে, অবিরাম */
+    animation: marquee 10s ease-in-out infinite; 
+    
+    /* ঐচ্ছিক: কিছু কাস্টম স্টাইল */
+    letter-spacing: 2px; /* ফন্টের ফাঁকা স্থান আরও বাড়ানো হলো */
+}
+    /* Base Soft Card Style */
     .soft-card {
       background-color: #FFFFFF;
       border-radius: 1rem;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      /* নতুন ট্রানজিশন: হোভার ইফেক্টের জন্য */
+      transition: all 0.3s ease-in-out; 
+    }
+
+    /* Card Hover Animation */
+    .soft-card:hover {
+        transform: translateY(-4px) scale(1.01); /* সামান্য উপরে উঠবে ও বড় হবে */
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15); /* শ্যাডো গভীর হবে */
     }
     
-    /* placeholder লেখার রঙ কালো করার জন্য */
+    /* Search Bar Placeholder Color */
     #searchBar::placeholder {
       color: black;
       opacity: 0.7;
     }
 
-    /* নতুন যুক্ত করা হয়েছে: ইনপুটের ভেতরে টাইপ করা লেখার রঙ কালো করার জন্য */
+    /* Input Text Color */
     #searchBar {
       color: black;
+    }
+
+    /* Smooth Entrance for Cards (Keyframes) */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Card Entrance Class */
+    .card-item {
+        animation: fadeIn 0.5s ease-out forwards; /* প্রতিটি কার্ডের জন্য */
+        opacity: 0; /* শুরুতে লুকানো থাকবে */
     }
   </style>
 </head>
 <nav class="navbar bg-white bg-opacity-70 shadow sticky top-0 z-50">
   <div class="container mx-auto px-4 flex flex-col sm:flex-row items-center justify-between py-2 gap-3 sm:gap-0">
+    
     <div class="flex items-center gap-3">
       <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full ring ring-white ring-offset-2 ring-offset-emerald-400 p-1">
         <img src="./assets/logo-dark.png" alt="Logo" class="w-full h-full object-contain rounded-full" />
@@ -40,6 +80,16 @@
       </span>
     </div>
 
+    <div 
+        id="marqueeContainer" 
+        class="hidden sm:block overflow-hidden flex-grow mx-4 min-w-[200px]" 
+        style="text-align: center;"> 
+        <h1 
+            id="animatedTitle" 
+            class="whitespace-nowrap text-2xl md:text-3xl font-black text-red-600 drop-shadow-lg">
+            𝓡𝓐𝓙𝓢𝓗𝓐𝓗𝓘 𝓒𝓘𝓣𝓨 𝓔𝓜𝓔𝓡𝓖𝓔𝓝𝓒𝓨 𝓢𝓔𝓡𝓥𝓘𝓒𝓔 𝓓𝓘𝓡𝓔𝓒𝓣𝓞𝓡𝓨
+        </h1>
+    </div>
     <div class="flex items-center gap-2 sm:gap-3">
       <div class="flex items-center bg-green-50 rounded-full px-3 py-1 gap-1">
         <span class="text-sm font-semibold text-black" id="heartCount">0</span>
@@ -63,7 +113,7 @@
         </div>
         <h1 class="text-2xl md:text-3xl font-extrabold"> Rajshahi City Emergency Service Directory</h1>
         <p class="text-sm md:text-base text-white/90 mt-2 px-4 max-w-2xl">
-          Government Emergency Services at Your Fingertip - A Project by <strong> Md Mahim Hosen under the Government of the People's Republic of Bangladesh</strong>
+          Government Emergency Services at Your Fingertip - A Project by <strong> <i style="color: rgba(0, 0, 0, 0.616);"> Md Mahim Hosen </i> under the Government of the People's Republic of Bangladesh</strong>
         </p>
       </div>
     </div>
@@ -86,25 +136,24 @@
         <div id="cardGrid"></div>
       </section>
 
-      <aside class="col-span-12 lg:col-span-3 mt-6 md:mt-10">
-        <div class="soft-card bg-base-100 rounded-2xl p-4 md:p-5">
-          <div class="flex items-center justify-between mb-4">
-            <div class="flex items-center gap-2">
-              <span ><i class="fa-regular fa-clock"></i></span>
-              <h2 class="font-semibold text-lg text-black">Call History</h2>
-            </div>
-            <button id="clearHistory" class="btn btn !bg-[#00A63E] text-white">Clear</button>
-          </div>
-          <ul id="historyList" class="space-y-3 max-h-[520px] overflow-y-auto pr-2"></ul>
+<aside class="col-span-12 lg:col-span-3 mt-6 md:mt-44 **lg:ml-auto**">
+    <div class="soft-card bg-base-100 rounded-2xl p-4 md:p-5">
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-2">
+          <span ><i class="fa-regular fa-clock"></i></span>
+          <h2 class="font-semibold text-lg text-black">Call History</h2>
         </div>
-      </aside>
-
+        <button id="clearHistory" class="btn btn !bg-[#00A63E] text-white">Clear</button>
+      </div>
+      <ul id="historyList" class="space-y-3 max-h-[520px] overflow-y-auto pr-2"></ul>
     </div>
+</aside>
+      </div>
   </main>
 </section>
 
 <template id="cardTemplate">
-  <div class="soft-card bg-base-100 rounded-2xl p-5 flex flex-col gap-4 relative">
+  <div class="soft-card bg-base-100 rounded-2xl p-5 flex flex-col gap-4 relative card-item">
     
     <div class="flex justify-between items-start">
       <div class="avatar">
@@ -209,7 +258,7 @@
       'Rajshahi Police': [],
       'Rajshahi Fire': [],
       'Rajshahi Ambulance': [],
-      'Rajshahi Private': [], 
+  
       'Rajshahi Hospital': [],
       'Rajshahi Clinic': [], 
       'Rajshahi Health': [], 
@@ -222,13 +271,19 @@
       'Fire': [], 
       'NGO': [],
       'Travel': [],
+      'Utility': [], // নতুন ইউটিলিটি ক্যাটাগরি যুক্ত করা হয়েছে
     };
     
     services.forEach(svc => {
-      if (svc.category === 'Rajshahi Clinic') {
+      // Logic for grouping (Rajshahi Clinic into Rajshahi Hospital group)
+      if (svc.category === 'Rajshahi Clinic' || svc.category === 'Rajshahi Health') {
           categories['Rajshahi Hospital'].push(svc);
       } else if (categories[svc.category]) {
         categories[svc.category].push(svc);
+      } else if (svc.category === 'Rajshahi Govt.') {
+         categories['Govt.'].push(svc); // Handle Rajshahi Govt. which wasn't explicitly in the map
+      } else if (svc.category === 'Utility') { // Utility ক্যাটাগরি যুক্ত করা
+         categories['Utility'].push(svc);
       }
     });
 
@@ -255,22 +310,23 @@
       sectionHeader.className = 'text-2xl md:text-3xl font-bold text-gray-800 mt-8 mb-4 border-b-2 border-green-500 pb-2';
       
       let sectionTitle = group.category;
+      // Category Title Mapping (Bangla Translation)
       if (sectionTitle === 'SearchResults') sectionTitle = `সার্চ রেজাল্ট (${group.services.length}টি)`;
-      else if (sectionTitle === 'Rajshahi Private') sectionTitle = 'লক্ষ্মীপুর ডায়াগনস্টিক (বিশেষ ছাড়)';
-      else if (sectionTitle === 'All') sectionTitle = 'জাতীয় জরুরি হটলাইন (৯৯৯ সহ)';
-      else if (sectionTitle === 'Fire') sectionTitle = 'জাতীয় ফায়ার সার্ভিস (অন্যান্য)';
+      else if (sectionTitle === 'All') sectionTitle = 'জাতীয় জরুরি হটলাইন ';
+      else if (sectionTitle === 'Fire') sectionTitle = 'জাতীয় ফায়ার সার্ভিস সেবা';
       else if (sectionTitle === 'Govt.') sectionTitle = 'অন্যান্য সরকারি সেবা';
-      else if (sectionTitle === 'Help') sectionTitle = 'নারী ও শিশু সহায়তা';
+      else if (sectionTitle === 'Help') sectionTitle = 'নারী ও শিশু সহায়তা ও আইনি পরামর্শ';
       else if (sectionTitle === 'Electricity') sectionTitle = 'বিদ্যুৎ সেবা';
-      else if (sectionTitle === 'Rajshahi Police') sectionTitle = 'রাজশাহী পুলিশ (থানা ও ওসি)';
+      else if (sectionTitle === 'Utility') sectionTitle = 'পাবলিক ইউটিলিটি (গ্যাস/পানি)'; // Utility এর বাংলা নাম যুক্ত করা
+      else if (sectionTitle === 'Rajshahi Police') sectionTitle = 'রাজশাহী পুলিশ (থানা, ওসি ও র‍্যাব)';
       else if (sectionTitle === 'Rajshahi Fire') sectionTitle = 'রাজশাহী ফায়ার সার্ভিস';
       else if (sectionTitle === 'Rajshahi Ambulance') sectionTitle = 'রাজশাহী অ্যাম্বুলেন্স সার্ভিস';
-      else if (sectionTitle === 'Rajshahi Hospital' || sectionTitle === 'Rajshahi Clinic' || sectionTitle === 'Rajshahi Health') sectionTitle = 'রাজশাহী স্বাস্থ্যসেবা, হাসপাতাল ও ক্লিনিক';
+      else if (sectionTitle === 'Rajshahi Hospital') sectionTitle = 'রাজশাহী স্বাস্থ্যসেবা, হাসপাতাল ও ক্লিনিক';
       else if (sectionTitle === 'Rajshahi Blood') sectionTitle = 'রাজশাহী ব্লাড ব্যাংক';
       else if (sectionTitle === 'Rajshahi Bank') sectionTitle = 'রাজশাহী ব্যাংক (প্রধান শাখা)';
       else if (sectionTitle === 'Rajshahi Education') sectionTitle = 'রাজশাহী শিক্ষা বোর্ড ও প্রতিষ্ঠান';
       else if (sectionTitle === 'Travel') sectionTitle = 'ভ্রমণ সহায়তা (রেলওয়ে)';
-      else if (sectionTitle === 'NGO') sectionTitle = 'এনজিও সহায়তা (ব্র্যাক)';
+      else if (sectionTitle === 'NGO') sectionTitle = 'এনজিও সহায়তা ';
 
       sectionHeader.textContent = sectionTitle;
       el.cardGrid.appendChild(sectionHeader);
@@ -281,6 +337,7 @@
       
       group.services.forEach(svc => {
         const card = el.cardTemplate.content.cloneNode(true);
+        const cardDiv = card.querySelector('.card-item');
 
         card.querySelector('[data-role="icon"]').src = svc.icon;
         card.querySelector('[data-role="title"]').textContent = svc.title;
@@ -297,6 +354,8 @@
         badgeText = badgeText.replace('Blood', 'ব্লাড');
         badgeText = badgeText.replace('Bank', 'ব্যাংক');
         badgeText = badgeText.replace('Education', 'শিক্ষা');
+        badgeText = badgeText.replace('Govt.', 'সরকারি');
+        badgeText = badgeText.replace('Utility', 'ইউটিলিটি'); // Utility ব্যাজ যুক্ত করা
         card.querySelector('[data-role="badge"]').textContent = badgeText;
 
 
@@ -388,7 +447,8 @@
     el.historyList.innerHTML = '';
     state.history.forEach(h => {
       const li = document.createElement('li');
-      li.className = 'flex items-center justify-between gap-3 bg-white rounded-xl border p-3 shadow-sm hover:shadow-md transition-shadow';
+      // Hover Transition added
+      li.className = 'flex items-center justify-between gap-3 bg-white rounded-xl border p-3 shadow-sm hover:shadow-lg transition-all duration-300 ease-in-out cursor-pointer'; 
       li.innerHTML = `
         <div>
           <div class="font-semibold text-lg text-black leading-tight">${h.title}</div>
@@ -396,6 +456,10 @@
         </div>
         <div class="text-sm text-gray-500">${h.time}</div>
       `;
+      // Call functionality added to history item
+      li.addEventListener('click', () => {
+          window.location.href = 'tel:' + h.number;
+      });
       el.historyList.appendChild(li);
     });
   }
@@ -417,15 +481,20 @@
   // --- সার্ভিসের সম্পূর্ণ এবং সর্বশেষ তালিকা ---
   function getServices() {
     return [
-      // --- জাতীয় জরুরি নম্বর ---
+// --- জাতীয় জরুরি নম্বর ---
       { id: 1, title: 'National Emergency Number', subtitle: 'জাতীয় জরুরি সেবা (পুলিশ/অ্যাম্বুলেন্স/ফায়ার)', number: '999', category: 'All', icon: './assets/emergency.png' },
-      { id: 2, title: 'Fire Service Hotline (General)', subtitle: 'জাতীয় ফায়ার সার্ভিস', number: '102', category: 'Fire', icon: './assets/fire-service.png' }, 
-      { id: 3, title: 'Information Service', subtitle: 'সরকারি তথ্য ও সেবা', number: '333', category: 'Govt.', icon: './assets/emergency.png' }, 
-      { id: 4, title: 'Women & Child Helpline', subtitle: 'নারী ও শিশু সহায়তা', number: '109', category: 'Help', icon: './assets/emergency.png' },
-      { id: 5, title: 'Women & Child Abuse (Alt)', subtitle: 'নারী ও শিশু নির্যাতন (বিকল্প নম্বর)', number: '10921', category: 'Help', icon: './assets/emergency.png' }, 
-      { id: 6, title: 'Anti-Corruption Helpline', subtitle: 'দুদক হটলাইন', number: '106', category: 'Govt.', icon: './assets/emergency.png' },
-      { id: 7, title: 'Electricity Helpline (General)', subtitle: 'বিদ্যুৎ বিভ্রাট অভিযোগ', number: '16216', category: 'Electricity', icon: './assets/emergency.png' },
       
+      // ⭐ নতুন যুক্ত করা কার্ড ১ (ফায়ার সার্ভিস):
+      { id: 2, title: 'Fire Service Hotline (General)', subtitle: 'জাতীয় ফায়ার সার্ভিস (ফায়ার/অ্যাম্বুলেন্স)', number: '102', category: 'All', icon: './assets/fire-service.png' }, 
+      
+      // ⭐ নতুন যুক্ত করা কার্ড ২ (সরকারি তথ্য ও সেবা):
+      { id: 3, title: 'Information Service (a2i)', subtitle: 'সরকারি তথ্য ও সেবা (a2i)', number: '333', category: 'All', icon: './assets/emergency.png' }, 
+      
+      // (বাকি নম্বরগুলি, যেমন 109, 16263 ইত্যাদি, এই তিনটি কার্ডের পরে আসবে)
+      
+      { id: 4, title: 'Women & Child Helpline', subtitle: 'নারী ও শিশু সহায়তা', number: '109', category: 'Help', icon: './assets/emergency.png' },
+    
+    
       // --- রাজশাহী অঞ্চলের অফিসিয়াল নম্বর ---
       { id: 10, title: 'RMP Control Room', subtitle: 'রাজশাহী মেট্রোপলিটন পুলিশ', number: '0721-774476', category: 'Rajshahi Police', icon: './assets/police.png' },
       { id: 11, title: 'Rajshahi Fire Service', subtitle: 'ডিভিশনাল কন্ট্রোল রুম', number: '01730-336655', category: 'Rajshahi Fire', icon: './assets/fire-service.png' },
@@ -474,10 +543,11 @@
       { id: 405, title: 'Rajshahi Medical College Hospital Ambulance', subtitle: 'রামেক হাসপাতাল অ্যাম্বুলেন্স', number: '0721-774335', category: 'Rajshahi Ambulance', icon: './assets/ambulance.png' },
       { id: 406, title: 'Ambulance Service (Private)', subtitle: 'সাধারণ অ্যাম্বুলেন্স (আগের নম্বর)', number: '01994-999999', category: 'Rajshahi Ambulance', icon: './assets/ambulance.png' },
 
-      // --- ব্যক্তিগত/ডায়াগনস্টিক ---
-      { id: 17, title: 'Luxmipi Diagnostic Centre', subtitle: 'সকল টেস্টে ২৫% ছাড়! নির্ভুল রোগ নির্ণয়ে বিশ্বস্ত প্রতিষ্ঠান।', number: '01860280614', category: 'Rajshahi Private', icon: './assets/ambulance.png' },
-
+     
+      
       // --- হাসপাতাল ও ক্লিনিক ---
+
+      { id: 500, title: 'Luxmipi Diagnostic Centre', subtitle: 'সকল টেস্টে ২৫% ছাড়! নির্ভুল রোগ নির্ণয়ে বিশ্বস্ত প্রতিষ্ঠান।', number: '01860280614', category: 'Rajshahi Hospital', icon: './assets/ambulance.png' },
       { id: 501, title: 'Rajshahi Medical College Hospital (RMC)', subtitle: 'রাজশাহী মেডিকেল কলেজ হাসপাতাল (মূল)', number: '0721-774335', category: 'Rajshahi Hospital', icon: './assets/ambulance.png' },
       { id: 502, title: 'Islami Bank Medical College Hospital', subtitle: 'ইসলামী ব্যাংক মেডিকেল কলেজ হাসপাতাল', number: '01711340582', category: 'Rajshahi Hospital', icon: './assets/ambulance.png' },
       { id: 503, title: 'Rajshahi Model Hospital', subtitle: 'রাজশাহী মডেল হাসপাতাল', number: '01773-844844', category: 'Rajshahi Hospital', icon: './assets/ambulance.png' },
@@ -509,7 +579,7 @@
       { id: 606, title: 'REB Model School & College', subtitle: 'আর.ই.বি মডেল স্কুল ও কলেজ', number: '01309134670', category: 'Rajshahi Education', icon: './assets/emergency.png' },
       { id: 801, title: 'Rajshahi Polytechnic Institute', subtitle: 'কারিগরি শিক্ষা প্রতিষ্ঠান', number: '01919416534', category: 'Rajshahi Education', icon: './assets/emergency.png' },
       { id: 802, title: 'Bangladesh Polytechnic Institute', subtitle: 'কারিগরি শিক্ষা প্রতিষ্ঠান, রাজশাহী', number: '01711023727', category: 'Rajshahi Education', icon: './assets/emergency.png' },
-      { id: 803, title: 'Rajshahi Medical College (Office)', subtitle: 'অফিসিয়াল যোগাযোগ', number: '02588857150', category: 'Rajshahi Education', icon: './assets/emergency.png' },
+      { id: 803, title: 'Rajshahi Medical College (Office)', subtitle: 'অফিসিয়াল যোগাযোগ', number: '02588857150', category: 'Rajshahi Education', icon: './assets/emergency.png' },
       { id: 804, title: 'RUET, Rajshahi', subtitle: 'রাজশাহী প্রকৌশল ও প্রযুক্তি বিশ্ববিদ্যালয়', number: '0721-750105', category: 'Rajshahi Education', icon: './assets/emergency.png' },
       
       // --- নতুন যুক্ত করা অন্যান্য সরকারি সেবা ---
@@ -520,6 +590,14 @@
       // --- অন্যান্য জাতীয় নম্বর ---
       { id: 19, title: 'Brac Helpline', subtitle: 'ব্র্যাক সহায়তা', number: '16445', category: 'NGO', icon: './assets/brac.png' },
       { id: 20, title: 'Bangladesh Railway Helpline', subtitle: 'রেলওয়ে তথ্য', number: '163', category: 'Travel', icon: './assets/Bangladesh-Railway.png' },
+      
+      // --- নতুন যুক্ত করা অতিরিক্ত জরুরি নম্বর (র‌্যাব, ডিসি, ওয়াসা, গ্যাস ইত্যাদি) ---
+      { id: 901, title: 'RAB-5 Headquarters, Rajshahi', subtitle: 'র্যাব-৫ সদর দপ্তর হটলাইন (আইন-শৃঙ্খলা)', number: '01777-720500', category: 'Rajshahi Police', icon: './assets/police.png' },
+      { id: 902, title: 'DC Office, Rajshahi', subtitle: 'জেলা প্রশাসক কার্যালয় (সাধারণ যোগাযোগ)', number: '0721-772023', category: 'Govt.', icon: './assets/emergency.png' },
+      { id: 903, title: 'UNO Office, Paba, Rajshahi', subtitle: 'পবা উপজেলা নির্বাহী কর্মকর্তার কার্যালয়', number: '0721-772300', category: 'Govt.', icon: './assets/emergency.png' },
+      { id: 904, title: 'Bakhrabad Gas Emergency', subtitle: 'বাখরাবাদ গ্যাস জরুরি অভিযোগ (টোল ফ্রি)', number: '08000-011000', category: 'Utility', icon: './assets/emergency.png' },
+      { id: 905, title: 'Rajshahi WASA (Water Supply)', subtitle: 'রাজশাহী ওয়াসা (পানি সরবরাহ অভিযোগ)', number: '0721-750570', category: 'Utility', icon: './assets/emergency.png' },
+      { id: 906, title: 'Legal Aid (Legal Assistance)', subtitle: 'সরকারি আইনি সহায়তা (টোল ফ্রি)', number: '16430', category: 'Help', icon: './assets/emergency.png' },
     ];
   }
 
