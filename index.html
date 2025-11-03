@@ -37,6 +37,61 @@
     /* অক্ষরের ফাঁকা স্থান বাড়ানো হলো (ট্র্যাকিং) */
     letter-spacing: 4px; 
 }
+
+/* weather section */
+/* লোড হওয়ার সময় হালকা উপরে ওঠা ওFade হওয়া */
+    @keyframes fadeInUp {
+        0% {
+            opacity: 0;
+            transform: translateY(15px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .animate-fadeInUp {
+        animation: fadeInUp 1s ease-out forwards;
+    }
+
+
+    /* search bar style */
+/* কাস্টম CSS */
+
+/* ১. টাইটেল সেকশন হালকা ওপর থেকে নিচে আসবে */
+@keyframes fadeInDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fadeInDown {
+    animation: fadeInDown 1s ease-out forwards;
+}
+
+/* ২. প্যারাগ্রাফের জন্য ধীর গতির পালস (Pulse) */
+@keyframes pulseSlow {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.8;
+    }
+}
+
+.animate-pulse-slow {
+    animation: pulseSlow 4s infinite ease-in-out; /* ৪ সেকেন্ডে একবার পালস করবে */
+}
+
+
+
+
     /* Base Soft Card Style */
     .soft-card {
       background-color: #FFFFFF;
@@ -128,12 +183,52 @@
     </div>
   </div>
 </header>
+<!-- weather -->
+<div 
+    class="weather-widget-section bg-blue-50 border border-blue-200 rounded-xl shadow-xl p-6 mt-8 md:mt-12 transition-opacity duration-1000 animate-fadeInUp"
+    style="animation-delay: 0.5s;"
+>
+    
+    <h4 class="text-2xl font-extrabold text-blue-700 mb-4 text-center border-b-2 border-blue-400 pb-3">
+        ☀️ রাজশাহী-এর আবহাওয়ার তথ্য
+    </h4>
+    
+    <div class="text-center">
+        <a 
+            href="https://www.accuweather.com/en/bd/rajshahi/281691/weather-forecast/281691" 
+            target="_blank" 
+            class="inline-block py-3 px-6 bg-blue-600 text-white font-bold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300 transform hover:scale-105"
+        >
+            রাজশাহীর বর্তমান তাপমাত্রা ও পূর্বাভাস দেখুন
+        </a>
+        
+        <p class="text-sm text-gray-500 mt-3">
+            (তথ্যসূত্র: AccuWeather - রিয়েল-টাইম পূর্বাভাস)
+        </p>
+    </div>
+    
+</div>
 
+<!-- searchbar -->
 <section class="bg-white bg-opacity-70 pt-0">
   <main class="container mx-auto px-3 md:px-4 lg:px-6">
     <div class="grid grid-cols-12 gap-4 md:gap-6">
       
       <section class="col-span-12 lg:col-span-9 mt-6 md:mt-10">
+
+        <div class="text-center mb-8 mt-4 animate-fadeInDown">
+    <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 tracking-tight mb-2">
+        <span class="text-blue-600 transition duration-500 hover:text-red-500">
+            রাজশাহী
+        </span> 
+        <span class="text-red-500">
+            হেল্পলাইন সার্ভিস
+        </span>
+    </h1>
+    <p class="text-lg text-gray-600 font-medium animate-pulse-slow">
+        আপনার প্রয়োজনীয় সকল জরুরি সেবা ও তথ্যে জানতে এখানে  সার্চ  করুন 
+    </p>
+</div>
         
         <div class="mb-6">
           <label class="input input-bordered flex items-center gap-2 soft-card !p-0 !shadow-lg">
@@ -145,6 +240,7 @@
         <div id="cardGrid"></div>
       </section>
 
+      
 <aside class="col-span-12 lg:col-span-3 mt-6 md:mt-44 **lg:ml-auto**">
     <div class="soft-card bg-base-100 rounded-2xl p-4 md:p-5">
       <div class="flex items-center justify-between mb-4">
@@ -203,18 +299,480 @@
 
   </div>
 </template>
+<!-- website linl -->
 
-<footer class="bg-gray-900 text-white py-6 mt-12">
-  <div class="container mx-auto text-center">
-    <p class="text-sm">&copy; 2025 Md Mahim Hosen | Rajshahi Polytechnic Institute</p>
-    <p class="text-sm">All Rights Reserved</p>
-    <div class="mt-2 space-x-4">
-      <a href="#" class="hover:text-blue-400">Home</a>
-      <a href="#" class="hover:text-blue-400">About</a>
-      <a href="#" class="hover:text-blue-400">Contact</a>
+<div class="doctor-links-section" style="margin-top: 40px; padding: 25px; border-radius: 10px; border: 1px solid #007bff; background-color: #e9f5ff; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
+    
+    <h4 style="color: #007bff; margin-bottom: 20px; font-weight: 800; font-size: 1.4em; text-align: center;">
+        🏥 রাজশাহী-এর গুরুত্বপূর্ণ ক্লিনিক ও ডাক্তারদের তথ্যসূত্র
+    </h4>
+    
+    <ul style="list-style-type: none; padding: 0;">
+        
+        <li style="margin-bottom: 15px; border-bottom: 1px solid #cce5ff; padding-bottom: 10px;">
+            <a href="https://www.populardiagnostic.com/" target="_blank" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 1.1em; transition: color 0.3s;" onmouseover="this.style.color='#0056b3'" onmouseout="this.style.color='#1a1a1a'">
+                <span style="color: #28a745;">&#10004;</span> পপুলার ডায়াগনস্টিক সেন্টার লি: (রাজশাহী)
+            </a>
+            <span style="font-size: 0.9em; color: #555; display: block; margin-top: 2px; padding-left: 20px;">(ডাক্তারদের তালিকা, চেম্বারের সময় ও সিরিয়ালের জন্য)</span>
+        </li>
+
+        <li style="margin-bottom: 15px; border-bottom: 1px solid #cce5ff; padding-bottom: 10px;">
+            <a href="https://labaid.com.bd/en/diagnostic/labaid-diagnostic-rajshahi" target="_blank" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 1.1em; transition: color 0.3s;" onmouseover="this.style.color='#0056b3'" onmouseout="this.style.color='#1a1a1a'">
+                <span style="color: #28a745;">&#10004;</span> ল্যাবএইড ডায়াগনস্টিক, রাজশাহী শাখা
+            </a>
+            <span style="font-size: 0.9em; color: #555; display: block; margin-top: 2px; padding-left: 20px;">(বিশেষজ্ঞদের তথ্য ও অনলাইন রিপোর্ট ডাউনলোড)</span>
+        </li>
+        
+        <li style="margin-bottom: 15px; border-bottom: 1px solid #cce5ff; padding-bottom: 10px;">
+            <a href="https://rmch.portal.gov.bd/" target="_blank" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 1.1em; transition: color 0.3s;" onmouseover="this.style.color='#0056b3'" onmouseout="this.style.color='#1a1a1a'">
+                <span style="color: #28a745;">&#10004;</span> রাজশাহী মেডিকেল কলেজ হাসপাতাল (RMCH)
+            </a>
+            <span style="font-size: 0.9em; color: #555; display: block; margin-top: 2px; padding-left: 20px;">(সরকারি সেবা, জরুরি হটলাইন ও নোটিশ)</span>
+        </li>
+
+        <li style="margin-bottom: 15px; border-bottom: 1px solid #cce5ff; padding-bottom: 10px;">
+            <a href="https://example.com/royal-rajshahi" target="_blank" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 1.1em; transition: color 0.3s;" onmouseover="this.style.color='#0056b3'" onmouseout="this.style.color='#1a1a1a'">
+                <span style="color: #28a745;">&#10004;</span> রয়েল হসপিটাল ও ডায়াগনস্টিক সেন্টার, লক্ষ্মীপুর
+            </a>
+            <span style="font-size: 0.9em; color: #555; display: block; margin-top: 2px; padding-left: 20px;">(বিভিন্ন বিভাগের চেম্বার তথ্য, **সঠিক লিংক বসান**)</span>
+        </li>
+        
+        <li style="margin-bottom: 15px; border-bottom: 1px solid #cce5ff; padding-bottom: 10px;">
+            <a href="https://ibhrajshahi.com/" target="_blank" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 1.1em; transition: color 0.3s;" onmouseover="this.style.color='#0056b3'" onmouseout="this.style.color='#1a1a1a'">
+                <span style="color: #28a745;">&#10004;</span> ইসলামী ব্যাংক হাসপাতাল, রাজশাহী
+            </a>
+            <span style="font-size: 0.9em; color: #555; display: block; margin-top: 2px; padding-left: 20px;">(ডাক্তার ও সেবার বিস্তারিত তথ্য)</span>
+        </li>
+        
+        <li style="margin-bottom: 15px; border-bottom: 1px solid #cce5ff; padding-bottom: 10px;">
+            <a href="https://example.com/digital-rajshahi" target="_blank" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 1.1em; transition: color 0.3s;" onmouseover="this.style.color='#0056b3'" onmouseout="this.style.color='#1a1a1a'">
+                <span style="color: #28a745;">&#10004;</span> ডিজিটাল ডায়াগনস্টিক সেন্টার, রাজশাহী
+            </a>
+            <span style="font-size: 0.9em; color: #555; display: block; margin-top: 2px; padding-left: 20px;">(ডাক্তার চেম্বার ও ডায়াগনস্টিক সেবা, **সঠিক লিংক বসান**)</span>
+        </li>
+      
+    </ul> 
+</div>
+<div class="doctor-links-section" style="margin-top: 40px; padding: 25px; border-radius: 10px; border: 1px solid #007bff; background-color: #e9f5ff; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
+    
+ <h4 style="color: #ffc107; margin-top: 30px; margin-bottom: 20px; font-weight: 800; font-size: 1.4em; text-align: center; border-top: 2px solid #ffc107; padding-top: 20px;">
+        🎓 রাজশাহী-এর স্বনামধন্য শিক্ষা প্রতিষ্ঠান
+    </h4>
+    
+    <ul style="list-style-type: none; padding: 0;">
+
+
+        <li style="margin-bottom: 15px; border-bottom: 1px dashed #d4edda; padding-bottom: 10px;">
+            <a href="http://www.rpi.gov.bd/" target="_blank" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 1.1em; transition: color 0.3s;" onmouseover="this.style.color='#0056b3'" onmouseout="this.style.color='#1a1a1a'">
+                <span style="color: #008000;">&#9658;</span> রাজশাহী পলিটেকনিক ইনস্টিটিউট (RPI)
+            </a>
+            <span style="font-size: 0.9em; color: #6c757d; display: block; margin-top: 2px; padding-left: 20px;">(উত্তরবঙ্গের অন্যতম কারিগরি শিক্ষা প্রতিষ্ঠান)</span>
+        </li>
+
+        <li style="margin-bottom: 15px; border-bottom: 1px dashed #d4edda; padding-bottom: 10px;">
+            <a href="https://rwpit.portal.gov.bd/" target="_blank" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 1.1em; transition: color 0.3s;" onmouseover="this.style.color='#0056b3'" onmouseout="this.style.color='#1a1a1a'">
+                <span style="color: #008000;">&#9658;</span> রাজশাহী মহিলা পলিটেকনিক ইনস্টিটিউট
+            </a>
+            <span style="font-size: 0.9em; color: #6c757d; display: block; margin-top: 2px; padding-left: 20px;">(মহিলাদের জন্য কারিগরি শিক্ষা)</span>
+        </li>
+        
+        
+        <li style="margin-bottom: 15px; border-bottom: 1px solid #ffedcc; padding-bottom: 10px;">
+            <a href="https://rajshahicollege.edu.bd/" target="_blank" style="text-decoration: none; color: #333; font-weight: bold; font-size: 1.1em; transition: color 0.3s;" onmouseover="this.style.color='#e0a800'" onmouseout="this.style.color='#333'">
+                <span style="color: #fd7e14;">&#9733;</span> রাজশাহী কলেজ
+            </a>
+            <span style="font-size: 0.9em; color: #6c757d; display: block; margin-top: 2px; padding-left: 20px;">(জাতীয় বিশ্ববিদ্যালয়ের অধীনে সেরা কলেজ)</span>
+        </li>
+
+        <li style="margin-bottom: 15px; border-bottom: 1px solid #ffedcc; padding-bottom: 10px;">
+            <a href="https://www.ru.ac.bd/" target="_blank" style="text-decoration: none; color: #333; font-weight: bold; font-size: 1.1em; transition: color 0.3s;" onmouseover="this.style.color='#e0a800'" onmouseout="this.style.color='#333'">
+                <span style="color: #fd7e14;">&#9733;</span> রাজশাহী বিশ্ববিদ্যালয় (RU)
+            </a>
+            <span style="font-size: 0.9em; color: #6c757d; display: block; margin-top: 2px; padding-left: 20px;">(রাজশাহী অঞ্চলের প্রধান উচ্চশিক্ষা প্রতিষ্ঠান)</span>
+        </li>
+        
+        <li style="margin-bottom: 15px; border-bottom: 1px solid #ffedcc; padding-bottom: 10px;">
+            <a href="http://www.rccl.edu.bd/" target="_blank" style="text-decoration: none; color: #333; font-weight: bold; font-size: 1.1em; transition: color 0.3s;" onmouseover="this.style.color='#e0a800'" onmouseout="this.style.color='#333'">
+                <span style="color: #fd7e14;">&#9733;</span> রাজশাহী ক্যাডেট কলেজ
+            </a>
+            <span style="font-size: 0.9em; color: #6c757d; display: block; margin-top: 2px; padding-left: 20px;">(ক্যাডেট কলেজ সমূহের মধ্যে অন্যতম)</span>
+        </li>
+        
+        <li style="margin-bottom: 15px; padding-bottom: 10px;">
+            <a href="https://example.com/new-govt-degree-college" target="_blank" style="text-decoration: none; color: #333; font-weight: bold; font-size: 1.1em; transition: color 0.3s;" onmouseover="this.style.color='#e0a800'" onmouseout="this.style.color='#333'">
+                <span style="color: #fd7e14;">&#9733;</span> রাজশাহী নিউ গভ. ডিগ্রী কলেজ
+            </a>
+            <span style="font-size: 0.9em; color: #6c757d; display: block; margin-top: 2px; padding-left: 20px;">(স্কুল ও কলেজ সেকশনের জন্য **সঠিক লিংক বসান**)</span>
+        </li>
+        
+    </ul>
+    
+    
+
+</div>
+    
+   
+<div class="doctor-links-section" style="margin-top: 40px; padding: 25px; border-radius: 10px; border: 1px solid #007bff; background-color: #e9f5ff; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
+    
+    <h4 style="color: #008000; margin-top: 30px; margin-bottom: 20px; font-weight: 800; font-size: 1.4em; text-align: center; border-top: 2px solid #008000; padding-top: 20px;">
+        🏛️ সরকারি ওয়েবসাইট
+    </h4>
+    
+    <ul style="list-style-type: none; padding: 0;">
+        
+        <li style="margin-bottom: 15px; border-bottom: 1px dashed #d4edda; padding-bottom: 10px;">
+            <a href="https://www.bangladesh.gov.bd/" target="_blank" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 1.1em; transition: color 0.3s;" onmouseover="this.style.color='#0056b3'" onmouseout="this.style.color='#1a1a1a'">
+                <span style="color: #008000;">&#9658;</span> বাংলাদেশ জাতীয় তথ্য বাতায়ন
+            </a>
+            <span style="font-size: 0.9em; color: #6c757d; display: block; margin-top: 2px; padding-left: 20px;">(সকল সরকারি সেবার মূল পোর্টাল)</span>
+        </li>
+        
+        <li style="margin-bottom: 15px; border-bottom: 1px dashed #d4edda; padding-bottom: 10px;">
+            <a href="https://rajshahi.gov.bd/" target="_blank" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 1.1em; transition: color 0.3s;" onmouseover="this.style.color='#0056b3'" onmouseout="this.style.color='#1a1a1a'">
+                <span style="color: #008000;">&#9658;</span> রাজশাহী জেলা বাতায়ন
+            </a>
+            <span style="font-size: 0.9em; color: #6c757d; display: block; margin-top: 2px; padding-left: 20px;">(রাজশাহী জেলার স্থানীয় সরকারি তথ্য)</span>
+        </li>
+
+        
+        
+    </ul>
+    
     </div>
-  </div>
+
+    <div class="doctor-links-section" style="margin-top: 40px; padding: 25px; border-radius: 10px; border: 1px solid #007bff; background-color: #e9f5ff; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
+    
+    <h4 style="color: #6f42c1; margin-top: 30px; margin-bottom: 20px; font-weight: 800; font-size: 1.4em; text-align: center; border-top: 2px solid #6f42c1; padding-top: 20px;">
+        🛍️ অন্যান্য শপ ও প্রয়োজনীয় বাণিজ্যিক সেবা
+    </h4>
+    
+    <ul style="list-style-type: none; padding: 0;">
+        
+        <li style="margin-bottom: 15px; border-bottom: 1px dashed #e6e6fa; padding-bottom: 10px;">
+            <a href="https://www.rokomari.com/" target="_blank" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 1.1em; transition: color 0.3s;" onmouseover="this.style.color='#4a148c'" onmouseout="this.style.color='#1a1a1a'">
+                <span style="color: #6f42c1;">&#10022;</span> রকমারি ডট কম (Rokomari.com)
+            </a>
+            <span style="font-size: 0.9em; color: #6c757d; display: block; margin-top: 2px; padding-left: 20px;">(অনলাইনে বই ও অন্যান্য পণ্য কেনা)</span>
+        </li>
+        
+        <li style="margin-bottom: 15px; border-bottom: 1px dashed #e6e6fa; padding-bottom: 10px;">
+            <a href="https://chaldal.com/" target="_blank" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 1.1em; transition: color 0.3s;" onmouseover="this.style.color='#4a148c'" onmouseout="this.style.color='#1a1a1a'">
+                <span style="color: #6f42c1;">&#10022;</span> চালডাল ডট কম (Chaldal.com)
+            </a>
+            <span style="font-size: 0.9em; color: #6c757d; display: block; margin-top: 2px; padding-left: 20px;">(অনলাইনে গ্রোসারি ও নিত্যপ্রয়োজনীয় পণ্য কেনা)</span>
+        </li>
+        
+        <li style="margin-bottom: 15px; border-bottom: 1px dashed #e6e6fa; padding-bottom: 10px;">
+            <a href="https://www.daraz.com.bd/" target="_blank" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 1.1em; transition: color 0.3s;" onmouseover="this.style.color='#4a148c'" onmouseout="this.style.color='#1a1a1a'">
+                <span style="color: #6f42c1;">&#10022;</span> দারাজ বাংলাদেশ (Daraz BD)
+            </a>
+            <span style="font-size: 0.9em; color: #6c757d; display: block; margin-top: 2px; padding-left: 20px;">(রাজশাহী অঞ্চলের জন্য ই-কমার্স সেবা)</span>
+        </li>
+        
+        <li style="margin-bottom: 15px; border-bottom: 1px dashed #e6e6fa; padding-bottom: 10px;">
+            <a href="https://eticket.railway.gov.bd/" target="_blank" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 1.1em; transition: color 0.3s;" onmouseover="this.style.color='#4a148c'" onmouseout="this.style.color='#1a1a1a'">
+                <span style="color: #6f42c1;">&#10022;</span> বাংলাদেশ রেলওয়ে ই-টিকেটিং
+            </a>
+            <span style="font-size: 0.9em; color: #6c757d; display: block; margin-top: 2px; padding-left: 20px;">(রাজশাহী থেকে ট্রেন ভ্রমণের টিকেট)</span>
+        </li>
+        
+        <li style="margin-bottom: 15px; padding-bottom: 10px;">
+            <a href="https://example.com/rajshahi-restaurants" target="_blank" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 1.1em; transition: color 0.3s;" onmouseover="this.style.color='#4a148c'" onmouseout="this.style.color='#1a1a1a'">
+                <span style="color: #6f42c1;">&#10022;</span> রাজশাহী-এর স্থানীয় রেস্টুরেন্ট তালিকা (Food & Taste)
+            </a>
+            <span style="font-size: 0.9em; color: #6c757d; display: block; margin-top: 2px; padding-left: 20px;">(সেরা স্থানীয় রেস্তোরাঁর তালিকা/ফুড ব্লগ, **সঠিক লিঙ্ক বসান**)</span>
+        </li>
+        
+    </ul>
+
+    </div>
+  
+    <div class="doctor-links-section" style="margin-top: 40px; padding: 25px; border-radius: 10px; border: 1px solid #007bff; background-color: #e9f5ff; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
+    
+    <h4 style="color: #ff0000; margin-top: 30px; margin-bottom: 20px; font-weight: 800; font-size: 1.4em; text-align: center; border-top: 2px solid #ff0000; padding-top: 20px;">
+        📚 রাজশাহী-এর স্বনামধন্য কোচিং সেন্টারসমূহ
+    </h4>
+    
+    <ul style="list-style-type: none; padding: 0;">
+        
+        <li style="margin-bottom: 15px; border-bottom: 1px dashed #ffcccb; padding-bottom: 10px;">
+            <a href="https://udvash.com/Branch/Details/20" target="_blank" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 1.1em; transition: color 0.3s;" onmouseover="this.style.color='#cc0000'" onmouseout="this.style.color='#1a1a1a'">
+                <span style="color: #ff0000;">&#9998;</span> উদ্ভাস একাডেমিক ও এডমিশন কেয়ার
+            </a>
+            <span style="font-size: 0.9em; color: #6c757d; display: block; margin-top: 2px; padding-left: 20px;">(মেডিকেল ও বিশ্ববিদ্যালয় ভর্তি প্রস্তুতি)</span>
+        </li>
+        
+        <li style="margin-bottom: 15px; border-bottom: 1px dashed #ffcccb; padding-bottom: 10px;">
+            <a href="http://www.retina.org.bd/" target="_blank" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 1.1em; transition: color 0.3s;" onmouseover="this.style.color='#cc0000'" onmouseout="this.style.color='#1a1a1a'">
+                <span style="color: #ff0000;">&#9998;</span> রেটিনা মেডিকেল ও ডেন্টাল এডমিশন কেয়ার
+            </a>
+            <span style="font-size: 0.9em; color: #6c757d; display: block; margin-top: 2px; padding-left: 20px;">(বিশেষ করে মেডিকেল ভর্তি পরীক্ষার জন্য সুপরিচিত)</span>
+        </li>
+        
+        <li style="margin-bottom: 15px; border-bottom: 1px dashed #ffcccb; padding-bottom: 10px;">
+            <a href="https://web.medico.com.bd/" target="_blank" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 1.1em; transition: color 0.3s;" onmouseover="this.style.color='#cc0000'" onmouseout="this.style.color='#1a1a1a'">
+                <span style="color: #ff0000;">&#9998;</span> মেডিকো - মেডিকেল ও ডেন্টাল কোচিং
+            </a>
+            <span style="font-size: 0.9em; color: #6c757d; display: block; margin-top: 2px; padding-left: 20px;">(মেডিকেল ও ডেন্টাল ভর্তি পরীক্ষার জন্য)</span>
+        </li>
+        
+        <li style="margin-bottom: 15px; border-bottom: 1px dashed #ffcccb; padding-bottom: 10px;">
+            <a href="https://mentors.com.bd/" target="_blank" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 1.1em; transition: color 0.3s;" onmouseover="this.style.color='#cc0000'" onmouseout="this.style.color='#1a1a1a'">
+                <span style="color: #ff0000;">&#9998;</span> মেনটরস (Mentors)
+            </a>
+            <span style="font-size: 0.9em; color: #6c757d; display: block; margin-top: 2px; padding-left: 20px;">(বিসিএস, ব্যাংক, ও অন্যান্য চাকরির প্রস্তুতি)</span>
+        </li>
+        
+        <li style="margin-bottom: 15px; padding-bottom: 10px;">
+            <a href="https://www.rajshahieducation.com/center/38/" target="_blank" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 1.1em; transition: color 0.3s;" onmouseover="this.style.color='#cc0000'" onmouseout="this.style.color='#1a1a1a'">
+                <span style="color: #ff0000;">&#9998;</span> কনটেস্ট ইউনিভার্সিটি এডমিশন কোচিং
+            </a>
+            <span style="font-size: 0.9em; color: #6c757d; display: block; margin-top: 2px; padding-left: 20px;">(রাজশাহী বিশ্ববিদ্যালয় এডমিশনের জন্য)</span>
+        </li>
+        
+    </ul>
+    
+    </div>
+
+
+    <div class="agency-links-section" style="margin-top: 40px; padding: 25px; border-radius: 10px; border: 1px solid #007bff; background-color: #e9f5ff; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
+    
+    <h4 style="color: #6f42c1; margin-bottom: 20px; font-weight: 800; font-size: 1.4em; text-align: center; border-top: 2px solid #6f42c1; padding-top: 20px;">
+        🏢 গুরুত্বপূর্ণ এজেন্সির ওয়েবসাইট লিঙ্ক
+    </h4>
+    
+    <ul style="list-style-type: none; padding: 0;">
+        
+        <li style="margin-bottom: 15px; border-bottom: 1px dashed #e6e6fa; padding-bottom: 10px;">
+            <a href="https://www.biman-airlines.com/" target="_blank" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 1.1em; transition: color 0.3s;" onmouseover="this.style.color='#4a148c'" onmouseout="this.style.color='#1a1a1a'">
+                <span style="color: #6f42c1;">&#10022;</span> বিমান বাংলাদেশ এয়ারলাইন্স
+            </a>
+            <span style="font-size: 0.9em; color: #6c757d; display: block; margin-top: 2px; padding-left: 20px;">(ভ্রমণ ও টিকিট সংক্রান্ত তথ্য)</span>
+        </li>
+        
+        <li style="margin-bottom: 15px; border-bottom: 1px dashed #e6e6fa; padding-bottom: 10px;">
+            <a href="https://uttararealestate.com.bd/" target="_blank" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 1.1em; transition: color 0.3s;" onmouseover="this.style.color='#4a148c'" onmouseout="this.style.color='#1a1a1a'">
+                <span style="color: #6f42c1;">&#10022;</span> উত্তরা রিয়েল এস্টেট
+            </a>
+            <span style="font-size: 0.9em; color: #6c757d; display: block; margin-top: 2px; padding-left: 20px;">(আবাসন ও রিয়েল এস্টেট সেবা)</span>
+        </li>
+        
+        <li style="margin-bottom: 15px; padding-bottom: 10px;">
+            <a href="https://www.karmasangsthanbank.gov.bd/" target="_blank" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 1.1em; transition: color 0.3s;" onmouseover="this.style.color='#4a148c'" onmouseout="this.style.color='#1a1a1a'">
+                <span style="color: #6e42c1ea;">&#10022;</span> কর্মসংস্থান ব্যাংক
+            </a>
+            <span style="font-size: 0.9em; color: #6c757d; display: block; margin-top: 2px; padding-left: 20px;">(রাজশাহী শাখার সরকারি চাকরি ও ঋণ সেবা)</span>
+        </li>
+        
+    </ul>
+</div>
+
+<div class="transport-links-section" style="margin-top: 30px; padding: 25px; border-radius: 10px; border: 1px solid #17a2b8; background-color: #f0f8ff; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
+    
+    <h4 style="color: #17a2b8; margin-bottom: 20px; font-weight: 800; font-size: 1.4em; text-align: center; border-top: 2px solid #17a2b8; padding-top: 20px;">
+        ✈️ রাজশাহী-এর গুরুত্বপূর্ণ পরিবহন লিঙ্ক
+    </h4>
+    
+    <ul style="list-style-type: none; padding: 0;">
+        
+        <li style="margin-bottom: 15px; border-bottom: 1px dashed #d6e9f0; padding-bottom: 10px;">
+            <a href="https://eticket.railway.gov.bd/" target="_blank" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 1.1em; transition: color 0.3s;" onmouseover="this.style.color='#0f6674'" onmouseout="this.style.color='#1a1a1a'">
+                <span style="color: #17a2b8;">&#9972;</span> বাংলাদেশ রেলওয়ের ই-টিকিট পোর্টাল
+            </a>
+            <span style="font-size: 0.9em; color: #6c757d; display: block; margin-top: 2px; padding-left: 20px;">(রাজশাহী থেকে ট্রেনের টিকিট বুকিং)</span>
+        </li>
+        
+        <li style="margin-bottom: 15px; border-bottom: 1px dashed #d6e9f0; padding-bottom: 10px;">
+            <a href="https://www.shohoz.com/" target="_blank" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 1.1em; transition: color 0.3s;" onmouseover="this.style.color='#0f6674'" onmouseout="this.style.color='#1a1a1a'">
+                <span style="color: #17a2b8;">&#9973;</span> সহজ ডট কম (Shohoz)
+            </a>
+            <span style="font-size: 0.9em; color: #6c757d; display: block; margin-top: 2px; padding-left: 20px;">(রাজশাহী রুটের বাস টিকিট বুকিং)</span>
+        </li>
+        
+        <li style="margin-bottom: 15px; border-bottom: 1px dashed #d6e9f0; padding-bottom: 10px;">
+            <a href="https://www.biman-airlines.com/" target="_blank" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 1.1em; transition: color 0.3s;" onmouseover="this.style.color='#0f6674'" onmouseout="this.style.color='#1a1a1a'">
+                <span style="color: #17a2b8;">&#9992;</span> বিমান বাংলাদেশ এয়ারলাইন্স
+            </a>
+            <span style="font-size: 0.9em; color: #6c757d; display: block; margin-top: 2px; padding-left: 20px;">(রাজশাহী শাহ মখদুম বিমানবন্দর ফ্লাইট তথ্য)</span>
+        </li>
+        
+        <li style="margin-bottom: 15px; padding-bottom: 10px;">
+            <a href="https://www.railway.gov.bd/" target="_blank" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 1.1em; transition: color 0.3s;" onmouseover="this.style.color='#0f6674'" onmouseout="this.style.color='#1a1a1a'">
+                <span style="color: #17a2b8;">&#9972;</span> বাংলাদেশ রেলওয়ে (সময়সূচি ও ঘোষণা)
+            </a>
+            <span style="font-size: 0.9em; color: #6c757d; display: block; margin-top: 2px; padding-left: 20px;">(রেলওয়ের অফিসিয়াল তথ্য)</span>
+        </li>
+        
+    </ul>
+</div>
+
+<div class="tourism-links-section" style="margin-top: 30px; padding: 25px; border-radius: 10px; border: 1px solid #ff4500; background-color: #fff8f5; box-shadow: 0 4px 12px rgba(255, 69, 0, 0.15);">
+    
+    <h4 style="color: #ff4500; margin-bottom: 20px; font-weight: 800; font-size: 1.4em; text-align: center; border-top: 2px solid #ff4500; padding-top: 20px;">
+        🏞️ রাজশাহী-এর পর্যটন ও দর্শনীয় স্থানসমূহ
+    </h4>
+    
+    <ul style="list-style-type: none; padding: 0;">
+        
+        <li style="margin-bottom: 15px; border-bottom: 1px dashed #ffd5c2; padding-bottom: 10px;">
+            <a href="https://www.rajshahi.gov.bd/bn/site/view/tourist_spot" target="_blank" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 1.1em; transition: color 0.3s;" onmouseover="this.style.color='#cc3700'" onmouseout="this.style.color='#1a1a1a'">
+                <span style="color: #4682b4;">&#9967;</span> পদ্মার পাড় / পদ্মা গার্ডেন
+            </a>
+            <span style="font-size: 0.9em; color: #6c757d; display: block; margin-top: 2px; padding-left: 20px;">(জেলা বাতায়ন থেকে তথ্যসূত্র, টি-বাঁধ সংলগ্ন)</span>
+        </li>
+        
+        <li style="margin-bottom: 15px; border-bottom: 1px dashed #ffd5c2; padding-bottom: 10px;">
+            <a href="https://www.rajshahi.gov.bd/bn/site/view/tourist_spot" target="_blank" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 1.1em; transition: color 0.3s;" onmouseover="this.style.color='#cc3700'" onmouseout="this.style.color='#1a1a1a'">
+                <span style="color: #800080;">&#9763;</span> পুঠিয়া রাজবাড়ি ও মন্দির কমপ্লেক্স
+            </a>
+            <span style="font-size: 0.9em; color: #6c757d; display: block; margin-top: 2px; padding-left: 20px;">(রাজশাহী শহর থেকে ২৩ কিমি দূরে ঐতিহাসিক স্থান)</span>
+        </li>
+
+        <li style="margin-bottom: 15px; border-bottom: 1px dashed #ffd5c2; padding-bottom: 10px;">
+            <a href="https://bagha.rajshahi.gov.bd/bn/site/top_banner/r04i-%E0%A6%AC%E0%A6%BE%E0%A6%98%E0%A6%BE-%E0%A6%B6%E0%A6%BE%E0%A6%B9%E0%A7%80-%E0%A6%AE%E0%A6%B8%E0%A6%9C%E0%A6%BF%E0%A6%A6" target="_blank" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 1.1em; transition: color 0.3s;" onmouseover="this.style.color='#cc3700'" onmouseout="this.style.color='#1a1a1a'">
+                <span style="color: #8b4513;">&#9765;</span> বাঘা শাহী মসজিদ ও মাজার শরীফ
+            </a>
+            <span style="font-size: 0.9em; color: #6c757d; display: block; margin-top: 2px; padding-left: 20px;">(বাঘা উপজেলা বাতায়ন থেকে তথ্য)</span>
+        </li>
+
+        <li style="margin-bottom: 15px; border-bottom: 1px dashed #ffd5c2; padding-bottom: 10px;">
+            <a href="https://www.rajshahi.gov.bd/bn/site/view/tourist_spot" target="_blank" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 1.1em; transition: color 0.3s;" onmouseover="this.style.color='#cc3700'" onmouseout="this.style.color='#1a1a1a'">
+                <span style="color: #a0522d;">&#128096;</span> বরেন্দ্র গবেষণা জাদুঘর
+            </a>
+            <span style="font-size: 0.9em; color: #6c757d; display: block; margin-top: 2px; padding-left: 20px;">(রাজশাহী শহরের ঐতিহাসিক নিদর্শন)</span>
+        </li>
+        
+        <li style="margin-bottom: 15px; padding-bottom: 10px;">
+            <a href="https://www.rajshahi.gov.bd/bn/site/view/tourist_spot" target="_blank" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 1.1em; transition: color 0.3s;" onmouseover="this.style.color='#cc3700'" onmouseout="this.style.color='#1a1a1a'">
+                <span style="color: #228b22;">&#127795;</span> শহীদ এ এইচ এম কামারুজ্জামান কেন্দ্রীয় উদ্যান ও চিড়িয়াখানা
+            </a>
+            <span style="font-size: 0.9em; color: #6c757d; display: block; margin-top: 2px; padding-left: 20px;">(পারিবারিক বিনোদন কেন্দ্র)</span>
+        </li>
+
+        <li style="margin-bottom: 15px; border-bottom: 1px dashed #ffd5c2; padding-bottom: 10px;">
+            <a href="https://chapainawabganj.gov.bd/bn/site/tourist_spot/%E0%A6%B8%E0%A7%8B%E0%A6%A8%E0%A6%BE%E0%A6%AE%E0%A6%B8%E0%A6%9C%E0%A6%BF%E0%A6%A6-%E0%A6%B8%E0%A7%8D%E0%A6%A5%E0%A6%B2%E0%A6%AC%E0%A6%A8%E0%A7%8D%E0%A6%A6%E0%A6%B0" target="_blank" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 1.1em; transition: color 0.3s;" onmouseover="this.style.color='#cc3700'" onmouseout="this.style.color='#1a1a1a'">
+                <span style="color: #6a5acd;">&#128682;</span> সোনামসজিদ স্থলবন্দর (চাঁপাইনবাবগঞ্জ)
+            </a>
+            <span style="font-size: 0.9em; color: #6c757d; display: block; margin-top: 2px; padding-left: 20px;">(রাজশাহী অঞ্চলের কাছাকাছি প্রধান সীমান্ত বন্দর)</span>
+        </li>
+        
+        <li style="margin-bottom: 15px; border-bottom: 1px dashed #ffd5c2; padding-bottom: 10px;">
+            <a href="https://example.com/kantajew-temple" target="_blank" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 1.1em; transition: color 0.3s;" onmouseover="this.style.color='#cc3700'" onmouseout="this.style.color='#1a1a1a'">
+                <span style="color: #ffa500;">&#9763;</span> কান্তজির মন্দির (নওগাঁ-দিনাজপুর রোড)
+            </a>
+            <span style="font-size: 0.9em; color: #6c757d; display: block; margin-top: 2px; padding-left: 20px;">(ঐতিহ্যবাহী পোড়ামাটির ফলকের কাজ, **সঠিক লিঙ্ক বসান**)</span>
+        </li>
+
+        <li style="margin-bottom: 15px; border-bottom: 1px dashed #ffd5c2; padding-bottom: 10px;">
+            <a href="https://www.ru.ac.bd/" target="_blank" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 1.1em; transition: color 0.3s;" onmouseover="this.style.color='#cc3700'" onmouseout="this.style.color='#1a1a1a'">
+                <span style="color: #008000;">&#127891;</span> রাজশাহী বিশ্ববিদ্যালয় ক্যাম্পাস
+            </a>
+            <span style="font-size: 0.9em; color: #6c757d; display: block; margin-top: 2px; padding-left: 20px;">(সবুজ প্রকৃতি ও প্রশান্তির জন্য আদর্শ)</span>
+        </li>
+
+        <li style="margin-bottom: 15px; padding-bottom: 10px;">
+            <a href="https://www.shohoz.com/" target="_blank" style="text-decoration: none; color: #1a1a1a; font-weight: bold; font-size: 1.1em; transition: color 0.3s;" onmouseover="this.style.color='#cc3700'" onmouseout="this.style.color='#1a1a1a'">
+                <span style="color: #808080;">&#128652;</span> শহীদ এএইচএম কামারুজ্জামান আন্তঃজেলা বাস টার্মিনাল
+            </a>
+            <span style="font-size: 0.9em; color: #6c757d; display: block; margin-top: 2px; padding-left: 20px;">(শহর থেকে অন্য স্থানে ভ্রমণের জন্য প্রধান রুট)</span>
+        </li>
+        
+        
+ 
+        
+    </ul>
+</div>>
+
+
+<!-- picture -->
+<section class="bg-gray-50 py-12 md:py-20">
+    <div class="text-center mb-10 px-4">
+        <h1 class="text-4xl md:text-5xl font-extrabold text-indigo-700 leading-tight border-b-4 border-indigo-300 inline-block pb-2">
+            🏛️ রাজশাহীর প্রধান প্রধান আকর্ষণ 🏞️
+        </h1>
+        <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
+            ঐতিহ্য, সংস্কৃতি এবং প্রকৃতির এক অপূর্ব মিলনক্ষেত্র - রাজশাহী বিভাগ।
+        </p>
+    </div>
+    
+    <div class="container mx-auto px-4">
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <div class="bg-white rounded-2xl shadow-xl hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 overflow-hidden group">
+                <div class="relative h-48">
+                    <img src="assets/Shiva_temple_at_Puthia,_Rajshahi.JPG" alt="Puthia Temple Complex" class="w-full h-full object-cover transition duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-indigo-900 opacity-20 group-hover:opacity-10 transition-opacity"></div>
+                </div>
+                
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold text-indigo-700 mb-2">
+                        পুঠিয়া টেম্পল কমপ্লেক্স
+                    </h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        ১৭শ শতাব্দীর স্থাপত্যসহ টেরাকোটা অলংকরণে **অনন্য এক হিন্দু মন্দিরভিত্তিক ধ্বংসাবশেষ**। ইতিহাস ও শিল্পের এক চমৎকার নিদর্শন।
+                    </p>
+                </div>
+                <div class="p-4 bg-indigo-50 text-right">
+                    <a href="#" class="text-indigo-600 font-medium text-sm hover:text-indigo-800 transition duration-300">আরও জানুন →</a>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-xl hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 overflow-hidden group">
+                <div class="relative h-48">
+                    <img src="assets/download.jpeg" alt="Padma River Rajshahi" class="w-full h-full object-cover transition duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-teal-900 opacity-20 group-hover:opacity-10 transition-opacity"></div>
+                </div>
+                
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold text-teal-700 mb-2">
+                        পদ্মা নদীর প্লাবনভূমি
+                    </h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        রাজশাহী শহরের পশ্চিম পাড়ে বিশাল পদ্মা নদীর দৃশ্য, **সূর্যাস্তের সময় এক অনন্য নিরিবিলি অনুভূতি** দেয়।
+                    </p>
+                </div>
+                <div class="p-4 bg-teal-50 text-right">
+                    <a href="#" class="text-teal-600 font-medium text-sm hover:text-teal-800 transition duration-300">আরও দেখুন →</a>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-xl hover:shadow-2xl transition duration-500 ease-in-out transform hover:-translate-y-1 overflow-hidden group">
+                <div class="relative h-48">
+                    <img src="assets/Varendra-Research-Museum-Rajshahi-02.webp" alt="Varendra Research Museum Rajshahi" class="w-full h-full object-cover transition duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-red-900 opacity-20 group-hover:opacity-10 transition-opacity"></div>
+                </div>
+                
+                <div class="p-6">
+                    <h3 class="text-2xl font-bold text-red-700 mb-2">
+                        বরেন্দ্র গবেষণা জাদুঘর
+                    </h3>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        বাংলাদেশের **প্রথম গবেষণা জাদুঘরগুলোর একটি**, প্রাচীন মূর্তি ও লেখার নিদর্শনে ভরপুর ঐতিহাসিক স্থান।
+                    </p>
+                </div>
+                <div class="p-4 bg-red-50 text-right">
+                    <a href="#" class="text-red-600 font-medium text-sm hover:text-red-800 transition duration-300">সংগ্রহ দেখুন →</a>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</section>
+
+
+
+<footer class="bg-gray-900 text-white py-6 mt-12 animate-slide-up" style="animation-delay: 0.5s;">
+    <div class="container mx-auto text-center animate-pulse-bg">
+        <p class="text-sm">&copy; 2025 Md Mahim Hosen</p>
+        <p class="text-sm">All Rights Reserved</p>
+        <div class="mt-2 space-x-4">
+            <a href="#" class="hover:text-blue-400 transition-colors duration-300 animate-link-glow">Home</a>
+            <a href="#" class="hover:text-blue-400 transition-colors duration-300 animate-link-glow">About</a>
+            <a href="#" class="hover:text-blue-400 transition-colors duration-300 animate-link-glow">Contact</a>
+        </div>
+    </div>
 </footer>
+
 
 <script src="index.js"></script>
 </body>
