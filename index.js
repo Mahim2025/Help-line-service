@@ -1,0 +1,413 @@
+
+(function () {
+  const STORAGE_KEY = 'emergencyHotlineState'; 
+
+  function loadState() {
+    try {
+      const storedState = localStorage.getItem(STORAGE_KEY);
+      if (storedState) {
+        return JSON.parse(storedState);
+      }
+    } catch (e) {
+      console.error("Error loading state from localStorage", e);
+    }
+    return {
+      hearts: 0, 
+      copies: 0,
+      services: getServices(),
+      history: [],
+      favoriteIds: {} 
+    };
+  }
+
+  function saveState() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        hearts: state.hearts,
+        copies: state.copies,
+        history: state.history,
+        favoriteIds: state.favoriteIds
+      }));
+    } catch (e) {
+      console.error("Error saving state to localStorage", e);
+    }
+  }
+
+  let state = loadState();
+
+  const el = {
+    heartCount: document.getElementById('heartCount'),
+    copyCount: document.getElementById('copyCount'),
+    cardGrid: document.getElementById('cardGrid'),
+    historyList: document.getElementById('historyList'),
+    clearHistory: document.getElementById('clearHistory'),
+    cardTemplate: document.getElementById('cardTemplate'),
+    searchBar: document.getElementById('searchBar'),
+  };
+
+  function init() {
+    state.services = getServices().map(svc => ({
+      ...svc,
+      isFavorite: !!state.favoriteIds[svc.id] 
+    }));
+    bindGlobalUI();
+    renderCards(state.services); 
+    updateCounters();
+    renderHistory();
+  }
+
+  function groupServicesByCategory(services) {
+    if (el.searchBar && el.searchBar.value.trim() !== '') {
+        return [{ category: 'SearchResults', services: services }];
+    }
+    
+    const categories = {
+      'All': [], 
+      'Rajshahi Police': [],
+      'Rajshahi Fire': [],
+      'Rajshahi Ambulance': [],
+  
+      'Rajshahi Hospital': [],
+      'Rajshahi Clinic': [], 
+      'Rajshahi Health': [], 
+      'Rajshahi Blood': [],
+      'Rajshahi Bank': [],
+      'Rajshahi Education': [],
+      'Govt.': [],
+      'Electricity': [],
+      'Help': [],
+      'Fire': [], 
+      'NGO': [],
+      'Travel': [],
+      'Utility': [], // নতুন ইউটিলিটি ক্যাটাগরি যুক্ত করা হয়েছে
+    };
+    
+    services.forEach(svc => {
+      // Logic for grouping (Rajshahi Clinic into Rajshahi Hospital group)
+      if (svc.category === 'Rajshahi Clinic' || svc.category === 'Rajshahi Health') {
+          categories['Rajshahi Hospital'].push(svc);
+      } else if (categories[svc.category]) {
+        categories[svc.category].push(svc);
+      } else if (svc.category === 'Rajshahi Govt.') {
+         categories['Govt.'].push(svc); // Handle Rajshahi Govt. which wasn't explicitly in the map
+      } else if (svc.category === 'Utility') { // Utility ক্যাটাগরি যুক্ত করা
+         categories['Utility'].push(svc);
+      }
+    });
+
+    return Object.keys(categories)
+      .filter(key => categories[key].length > 0)
+      .map(key => ({
+        category: key,
+        services: categories[key]
+      }));
+  }
+
+  function renderCards(servicesToRender) {
+    el.cardGrid.innerHTML = '';
+    
+    const groupedServices = groupServicesByCategory(servicesToRender);
+
+    if (servicesToRender.length === 0) {
+        el.cardGrid.innerHTML = '<div class="text-center py-10 text-gray-500 font-semibold text-lg">আপনার সার্চ করা তথ্যের সাথে কোনো সার্ভিস মেলেনি।</div>';
+        return;
+    }
+
+    groupedServices.forEach(group => {
+      const sectionHeader = document.createElement('h2');
+      sectionHeader.className = 'text-2xl md:text-3xl font-bold text-gray-800 mt-8 mb-4 border-b-2 border-green-500 pb-2';
+      
+      let sectionTitle = group.category;
+      // Category Title Mapping (Bangla Translation)
+      if (sectionTitle === 'SearchResults') sectionTitle = `সার্চ রেজাল্ট (${group.services.length}টি)`;
+      else if (sectionTitle === 'All') sectionTitle = 'জাতীয় জরুরি হটলাইন ';
+      else if (sectionTitle === 'Fire') sectionTitle = 'জাতীয় ফায়ার সার্ভিস সেবা';
+      else if (sectionTitle === 'Govt.') sectionTitle = 'অন্যান্য সরকারি সেবা';
+      else if (sectionTitle === 'Help') sectionTitle = 'নারী ও শিশু সহায়তা ও আইনি পরামর্শ';
+      else if (sectionTitle === 'Electricity') sectionTitle = 'বিদ্যুৎ সেবা';
+      else if (sectionTitle === 'Utility') sectionTitle = 'পাবলিক ইউটিলিটি (গ্যাস/পানি)'; // Utility এর বাংলা নাম যুক্ত করা
+      else if (sectionTitle === 'Rajshahi Police') sectionTitle = 'রাজশাহী পুলিশ (থানা, ওসি ও র‍্যাব)';
+      else if (sectionTitle === 'Rajshahi Fire') sectionTitle = 'রাজশাহী ফায়ার সার্ভিস';
+      else if (sectionTitle === 'Rajshahi Ambulance') sectionTitle = 'রাজশাহী অ্যাম্বুলেন্স সার্ভিস';
+      else if (sectionTitle === 'Rajshahi Hospital') sectionTitle = 'রাজশাহী স্বাস্থ্যসেবা, হাসপাতাল ও ক্লিনিক';
+      else if (sectionTitle === 'Rajshahi Blood') sectionTitle = 'রাজশাহী ব্লাড ব্যাংক';
+      else if (sectionTitle === 'Rajshahi Bank') sectionTitle = 'রাজশাহী ব্যাংক (প্রধান শাখা)';
+      else if (sectionTitle === 'Rajshahi Education') sectionTitle = 'রাজশাহী শিক্ষা বোর্ড ও প্রতিষ্ঠান';
+      else if (sectionTitle === 'Travel') sectionTitle = 'ভ্রমণ সহায়তা (রেলওয়ে)';
+      else if (sectionTitle === 'NGO') sectionTitle = 'এনজিও সহায়তা ';
+
+      sectionHeader.textContent = sectionTitle;
+      el.cardGrid.appendChild(sectionHeader);
+
+      const gridContainer = document.createElement('div');
+      gridContainer.className = 'grid sm:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-5';
+      el.cardGrid.appendChild(gridContainer);
+      
+      group.services.forEach(svc => {
+        const card = el.cardTemplate.content.cloneNode(true);
+        const cardDiv = card.querySelector('.card-item');
+
+        card.querySelector('[data-role="icon"]').src = svc.icon;
+        card.querySelector('[data-role="title"]').textContent = svc.title;
+        card.querySelector('[data-role="subtitle"]').textContent = svc.subtitle;
+        card.querySelector('[data-role="number"]').textContent = svc.number;
+        
+        let badgeText = svc.category;
+        badgeText = badgeText.replace('Rajshahi ', '');
+        badgeText = badgeText.replace('Police', 'পুলিশ');
+        badgeText = badgeText.replace('Fire', 'ফায়ার');
+        badgeText = badgeText.replace('Ambulance', 'অ্যাম্বুলেন্স');
+        badgeText = badgeText.replace('Hospital', 'হাসপাতাল');
+        badgeText = badgeText.replace('Clinic', 'ক্লিনিক');
+        badgeText = badgeText.replace('Blood', 'ব্লাড');
+        badgeText = badgeText.replace('Bank', 'ব্যাংক');
+        badgeText = badgeText.replace('Education', 'শিক্ষা');
+        badgeText = badgeText.replace('Govt.', 'সরকারি');
+        badgeText = badgeText.replace('Utility', 'ইউটিলিটি'); // Utility ব্যাজ যুক্ত করা
+        card.querySelector('[data-role="badge"]').textContent = badgeText;
+
+
+        const heartIcon = card.querySelector('[data-role="heartIcon"]');
+        
+        if (svc.isFavorite) {
+          heartIcon.classList.remove('text-gray-400', 'hover:text-red-500');
+          heartIcon.classList.add('text-red-500');
+        }
+
+        bindCardEvents(card, svc);
+        gridContainer.appendChild(card);
+      });
+    });
+  }
+
+  function filterAndRender() {
+    const searchText = el.searchBar.value.toLowerCase().trim();
+    
+    if (searchText === '') {
+      renderCards(state.services);
+      return;
+    }
+
+    const filteredServices = state.services.filter(svc => {
+      return (
+        svc.title.toLowerCase().includes(searchText) ||
+        svc.subtitle.toLowerCase().includes(searchText) ||
+        svc.number.includes(searchText) ||
+        svc.category.toLowerCase().includes(searchText)
+      );
+    });
+    renderCards(filteredServices);
+  }
+ 
+  function bindCardEvents(cardElement, svc) {
+    cardElement.querySelector('[data-role="heartBtn"]').addEventListener('click', (e) => {
+      const index = state.services.findIndex(s => s.id === svc.id);
+      if (index > -1) {
+        state.services[index].isFavorite = !state.services[index].isFavorite;
+        svc.isFavorite = state.services[index].isFavorite; 
+
+        const currentHeartIcon = e.currentTarget.querySelector('[data-role="heartIcon"]');
+
+        if (svc.isFavorite) {
+          state.hearts += 1;
+          state.favoriteIds[svc.id] = true;
+          currentHeartIcon.classList.remove('text-gray-400');
+          currentHeartIcon.classList.add('text-red-500');
+        } else {
+          state.hearts = Math.max(0, state.hearts - 1); 
+          delete state.favoriteIds[svc.id];
+          currentHeartIcon.classList.add('text-gray-400');
+          currentHeartIcon.classList.remove('text-red-500');
+        }
+        updateCounters();
+        saveState();
+      }
+      if(el.searchBar.value.trim() !== '') {
+          filterAndRender();
+      }
+    });
+
+    cardElement.querySelector('[data-role="copyBtn"]').addEventListener('click', () => {
+      navigator.clipboard.writeText(svc.number)
+        .then(() => {
+          state.copies += 1;
+          updateCounters();
+          saveState();
+        })
+        .catch(() => alert('Copy failed. Please copy manually: ' + svc.number));
+    });
+
+    cardElement.querySelector('[data-role="callBtn"]').addEventListener('click', () => {
+      window.location.href = 'tel:' + svc.number; 
+      
+      const when = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      state.history.unshift({ title: svc.title, number: svc.number, time: when });
+      
+      if (state.history.length > 5) {
+          state.history.pop();
+      }
+      renderHistory();
+      saveState();
+    });
+  }
+
+  function renderHistory() {
+    el.historyList.innerHTML = '';
+    state.history.forEach(h => {
+      const li = document.createElement('li');
+      // Hover Transition added
+      li.className = 'flex items-center justify-between gap-3 bg-white rounded-xl border p-3 shadow-sm hover:shadow-lg transition-all duration-300 ease-in-out cursor-pointer'; 
+      li.innerHTML = `
+        <div>
+          <div class="font-semibold text-lg text-black leading-tight">${h.title}</div>
+          <div class="text-sm text-black">${h.number}</div>
+        </div>
+        <div class="text-sm text-gray-500">${h.time}</div>
+      `;
+      // Call functionality added to history item
+      li.addEventListener('click', () => {
+          window.location.href = 'tel:' + h.number;
+      });
+      el.historyList.appendChild(li);
+    });
+  }
+
+  function bindGlobalUI() {
+    el.clearHistory.addEventListener('click', () => {
+      state.history = [];
+      renderHistory();
+      saveState(); 
+    });
+    el.searchBar.addEventListener('input', filterAndRender);
+  }
+
+  function updateCounters() {
+    el.heartCount.textContent = state.hearts;
+    el.copyCount.textContent = state.copies;
+  }
+
+  // --- সার্ভিসের সম্পূর্ণ এবং সর্বশেষ তালিকা ---
+  function getServices() {
+    return [
+// --- জাতীয় জরুরি নম্বর ---
+      { id: 1, title: 'National Emergency Number', subtitle: 'জাতীয় জরুরি সেবা (পুলিশ/অ্যাম্বুলেন্স/ফায়ার)', number: '999', category: 'All', icon: './assets/emergency.png' },
+      
+      // ⭐ নতুন যুক্ত করা কার্ড ১ (ফায়ার সার্ভিস):
+      { id: 2, title: 'Fire Service Hotline (General)', subtitle: 'জাতীয় ফায়ার সার্ভিস (ফায়ার/অ্যাম্বুলেন্স)', number: '102', category: 'All', icon: './assets/fire-service.png' }, 
+      
+      // ⭐ নতুন যুক্ত করা কার্ড ২ (সরকারি তথ্য ও সেবা):
+      { id: 3, title: 'Information Service (a2i)', subtitle: 'সরকারি তথ্য ও সেবা (a2i)', number: '333', category: 'All', icon: './assets/emergency.png' }, 
+      
+      // (বাকি নম্বরগুলি, যেমন 109, 16263 ইত্যাদি, এই তিনটি কার্ডের পরে আসবে)
+      
+      { id: 4, title: 'Women & Child Helpline', subtitle: 'নারী ও শিশু সহায়তা', number: '109', category: 'Help', icon: './assets/emergency.png' },
+    
+    
+      // --- রাজশাহী অঞ্চলের অফিসিয়াল নম্বর ---
+      { id: 10, title: 'RMP Control Room', subtitle: 'রাজশাহী মেট্রোপলিটন পুলিশ', number: '0721-774476', category: 'Rajshahi Police', icon: './assets/police.png' },
+      { id: 11, title: 'Rajshahi Fire Service', subtitle: 'ডিভিশনাল কন্ট্রোল রুম', number: '01730-336655', category: 'Rajshahi Fire', icon: './assets/fire-service.png' },
+      { id: 12, title: 'Rajshahi Medical College (Emergency)', subtitle: 'জরুরি বিভাগ (হসপিটাল)', number: '0721-772150', category: 'Rajshahi Health', icon: './assets/ambulance.png' },
+      { id: 13, title: 'Civil Surgeon Office', subtitle: 'জেলা স্বাস্থ্য তত্ত্বাবধান', number: '0721-775678', category: 'Rajshahi Health', icon: './assets/emergency.png' },
+      { id: 14, title: 'Rajshahi City Corp. Hotline', subtitle: 'সিটি কর্পোরেশন সেবা', number: '16105', category: 'Rajshahi Govt.', icon: './assets/emergency.png' },
+      { id: 15, title: 'Rajshahi Palli Bidyut (RBS)', subtitle: 'পবিস সদর দপ্তর হটলাইন', number: '01769401764', category: 'Rajshahi Electricity', icon: './assets/emergency.png' },
+      { id: 16, title: 'Islami Bank Hospital RSH', subtitle: 'ইসলামী ব্যাংক হাসপাতাল', number: '0721-770965', category: 'Rajshahi Health', icon: './assets/ambulance.png' },
+      
+      // --- রাজশাহীর ব্লাড ব্যাংকসমূহ ---
+      { id: 201, title: 'Rajshahi Blood Bank & Transfusion Center', subtitle: 'ব্লাড ব্যাংক ও ট্রান্সফিউশন সেন্টার', number: '01770-807108', category: 'Rajshahi Blood', icon: './assets/ambulance.png' },
+      { id: 202, title: 'New Safe Blood Bank', subtitle: 'নিউ সেফ ব্লাড ব্যাংক', number: '01740-384078', category: 'Rajshahi Blood', icon: './assets/ambulance.png' },
+      { id: 203, title: 'Blood Bank, RMC (Shandhani)', subtitle: 'রাজশাহী মেডিকেল কলেজ (সন্ধানী)', number: '01797-563375', category: 'Rajshahi Blood', icon: './assets/ambulance.png' },
+      { id: 204, title: 'Badhon, RC Unit (Rajshahi College)', subtitle: 'বাঁধন, আর সি ইউনিট (রাজশাহী কলেজ)', number: '01752-355202', category: 'Rajshahi Blood', icon: './assets/ambulance.png' },
+      { id: 205, title: 'Shah Makhdum Blood Bank', subtitle: 'শাহ মখদুম ব্লাড ব্যাংক', number: '01775-748777', category: 'Rajshahi Blood', icon: './assets/ambulance.png' },
+      { id: 206, title: 'Blood Bank, Red Crescent', subtitle: 'রেড ক্রিসেন্ট রাজশাহী সিটি ইউনিট', number: '01770-330400', category: 'Rajshahi Blood', icon: './assets/ambulance.png' },
+      { id: 207, title: 'Mission Blood Bank', subtitle: 'মিশন হাসপাতাল, রাজশাহী', number: '01733-845247', category: 'Rajshahi Blood', icon: './assets/ambulance.png' },
+      { id: 208, title: 'Badhon, RU Branch (Rajshahi University)', subtitle: 'বাঁধন, রু শাখা (রাজশাহী বিশ্ববিদ্যালয়)', number: '01764-998353', category: 'Rajshahi Blood', icon: './assets/ambulance.png' },
+
+      // --- রাজশাহী জেলার থানার ওসির নম্বরসমূহ ---
+      { id: 301, title: 'OC, Boalia Model Police Station', subtitle: 'বোয়ালিয়া মডেল থানা', number: '01320-061499', category: 'Rajshahi Police', icon: './assets/police.png' },
+      { id: 302, title: 'OC, Motihar Thana', subtitle: 'মতিহার থানা', number: '01320-061623', category: 'Rajshahi Police', icon: './assets/police.png' },
+      { id: 303, title: 'OC, Rajpara Thana', subtitle: 'রাজপাড়া থানা', number: '01320-061527', category: 'Rajshahi Police', icon: './assets/police.png' },
+      { id: 304, title: 'OC, Kashiadanga Thana', subtitle: 'কাঁশিয়াডাঙ্গা থানা', number: '01320-061889', category: 'Rajshahi Police', icon: './assets/police.png' },
+      { id: 305, title: 'OC, Chandrima Thana', subtitle: 'চন্দ্রিমা থানা', number: '01320-061555', category: 'Rajshahi Police', icon: './assets/police.png' },
+      { id: 306, title: 'OC, Belpukur Thana', subtitle: 'বেলপুকুর থানা', number: '01320-061679', category: 'Rajshahi Police', icon: './assets/police.png' },
+      { id: 307, title: 'OC, Karnhar Thana', subtitle: 'কর্ণহার থানা', number: '01320-061939', category: 'Rajshahi Police', icon: './assets/police.png' },
+      { id: 308, title: 'OC, Airport Thana', subtitle: 'এয়ারপোর্ট থানা', number: '01320-061781', category: 'Rajshahi Police', icon: './assets/police.png' },
+      { id: 309, title: 'OC, Shah Makhdum Thana', subtitle: 'শাহ মখদুম থানা', number: '01320-061753', category: 'Rajshahi Police', icon: './assets/police.png' },
+      { id: 310, title: 'OC, Poba Thana', subtitle: 'পবা থানা', number: '01320-061809', category: 'Rajshahi Police', icon: './assets/police.png' },
+      { id: 311, title: 'OC, Katakhali Thana', subtitle: 'কাটাখালী থানা', number: '01320-061651', category: 'Rajshahi Police', icon: './assets/police.png' },
+      { id: 312, title: 'OC, Damkura Thana', subtitle: 'দামকুড়া থানা', number: '01320-061911', category: 'Rajshahi Police', icon: './assets/police.png' },
+      { id: 313, title: 'OC, Puthia Police Station', subtitle: 'পুঠিয়া থানা', number: '01320-122672', category: 'Rajshahi Police', icon: './assets/police.png' },
+      { id: 314, title: 'OC, Tanore Police Station', subtitle: 'তানোর থানা', number: '01320-122620', category: 'Rajshahi Police', icon: './assets/police.png' },
+      { id: 315, title: 'OC, Mohanpur Police Station', subtitle: 'মোহনপুর থানা', number: '01320-122646', category: 'Rajshahi Police', icon: './assets/police.png' },
+      { id: 316, title: 'OC, Bagmara Police Station', subtitle: 'বাগমারা থানা', number: '01320-122698', category: 'Rajshahi Police', icon: './assets/police.png' },
+      { id: 317, title: 'OC, Bagha Police Station', subtitle: 'বাঘা থানা', number: '01320-122724', category: 'Rajshahi Police', icon: './assets/police.png' },
+      { id: 318, title: 'OC, Charghat Model Police Station', subtitle: 'চারঘাট মডেল থানা', number: '01320-122750', category: 'Rajshahi Police', icon: './assets/police.png' },
+      { id: 319, title: 'OC, Durgapur Police Station', subtitle: 'দুর্গাপুর থানা', number: '01320-122724 (Alt)', category: 'Rajshahi Police', icon: './assets/police.png' },
+
+      // --- রাজশাহী অ্যাম্বুলেন্স সার্ভিস ---
+      { id: 401, title: 'Rajshahi Ambulance Service (24/7)', subtitle: '২৪ ঘণ্টা অ্যাম্বুলেন্স সার্ভিস', number: '01601-129376', category: 'Rajshahi Ambulance', icon: './assets/ambulance.png' },
+      { id: 402, title: 'Islami Bank Hospital Ambulance', subtitle: 'ইসলামী ব্যাংক হাসপাতাল অ্যাম্বুলেন্স', number: '01719-978197', category: 'Rajshahi Ambulance', icon: './assets/ambulance.png' }, 
+      { id: 403, title: 'Barind Medical College Hospital Ambulance', subtitle: 'বরেন্দ্র মেডিকেল কলেজ হাসপাতাল অ্যাম্বুলেন্স', number: '01772-564445', category: 'Rajshahi Ambulance', icon: './assets/ambulance.png' },
+      { id: 404, title: 'CDM Ambulance Service', subtitle: 'সিডিএম অ্যাম্বুলেন্স সার্ভিস, লক্ষ্মীপুর', number: '01845-988898', category: 'Rajshahi Ambulance', icon: './assets/ambulance.png' },
+      { id: 405, title: 'Rajshahi Medical College Hospital Ambulance', subtitle: 'রামেক হাসপাতাল অ্যাম্বুলেন্স', number: '0721-774335', category: 'Rajshahi Ambulance', icon: './assets/ambulance.png' },
+      { id: 406, title: 'Ambulance Service (Private)', subtitle: 'সাধারণ অ্যাম্বুলেন্স (আগের নম্বর)', number: '01994-999999', category: 'Rajshahi Ambulance', icon: './assets/ambulance.png' },
+
+     
+      
+      // --- হাসপাতাল ও ক্লিনিক ---
+
+      { id: 500, title: 'Luxmipi Diagnostic Centre', subtitle: 'সকল টেস্টে ২৫% ছাড়! নির্ভুল রোগ নির্ণয়ে বিশ্বস্ত প্রতিষ্ঠান।', number: '01860280614', category: 'Rajshahi Hospital', icon: './assets/ambulance.png' },
+      { id: 501, title: 'Rajshahi Medical College Hospital (RMC)', subtitle: 'রাজশাহী মেডিকেল কলেজ হাসপাতাল (মূল)', number: '0721-774335', category: 'Rajshahi Hospital', icon: './assets/ambulance.png' },
+      { id: 502, title: 'Islami Bank Medical College Hospital', subtitle: 'ইসলামী ব্যাংক মেডিকেল কলেজ হাসপাতাল', number: '01711340582', category: 'Rajshahi Hospital', icon: './assets/ambulance.png' },
+      { id: 503, title: 'Rajshahi Model Hospital', subtitle: 'রাজশাহী মডেল হাসপাতাল', number: '01773-844844', category: 'Rajshahi Hospital', icon: './assets/ambulance.png' },
+      { id: 504, title: 'Popular Diagnostic Center Ltd.', subtitle: 'পপুলার ডায়াগনস্টিক সেন্টার', number: '09613787811', category: 'Rajshahi Clinic', icon: './assets/ambulance.png' },
+      { id: 505, title: 'Bangladesh Eye Hospital', subtitle: 'বাংলাদেশ আই হাসপাতাল', number: '09643123123', category: 'Rajshahi Clinic', icon: './assets/ambulance.png' },
+      { id: 506, title: 'LABAID Diagnostic Center', subtitle: 'ল্যাবএইড ডায়াগনস্টিক সেন্টার', number: '01766-661144', category: 'Rajshahi Clinic', icon: './assets/ambulance.png' },
+      { id: 507, title: 'Rajshahi City Hospital', subtitle: 'রাজশাহী সিটি হাসপাতাল', number: '01318-245082', category: 'Rajshahi Hospital', icon: './assets/ambulance.png' },
+      { id: 508, title: 'Rajshahi Royal Hospital & Diagnostic Center', subtitle: 'রাজশাহী রয়্যাল হাসপাতাল', number: '01762-685090', category: 'Rajshahi Hospital', icon: './assets/ambulance.png' },
+      { id: 509, title: 'Amana Hospital Ltd.', subtitle: 'আমেনা হাসপাতাল', number: '01705-403610', category: 'Rajshahi Hospital', icon: './assets/ambulance.png' },
+      { id: 510, title: 'Rajshahi Shishu Hospital', subtitle: 'রাজশাহী শিশু হাসপাতাল', number: '0721770506', category: 'Rajshahi Hospital', icon: './assets/ambulance.png' },
+      { id: 511, title: 'Ibn Sina Diagnostic & Consultation Center', subtitle: 'ইবনে সিনা ডায়াগনস্টিক', number: '09610009636', category: 'Rajshahi Clinic', icon: './assets/ambulance.png' },
+      { id: 512, title: 'Dolphin Clinic', subtitle: 'ডলফিন ক্লিনিক', number: '01723-025514', category: 'Rajshahi Clinic', icon: './assets/ambulance.png' },
+      { id: 513, title: 'Dr. Kaisar Rahman Chowdhury Hospital', subtitle: 'ডা. কায়সার রহমান চৌধুরী হাসপাতাল', number: '01711-994292', category: 'Rajshahi Hospital', icon: './assets/ambulance.png' },
+      { id: 514, title: 'Kaisar Memorial Hospital', subtitle: 'কায়সার মেমোরিয়াল হাসপাতাল', number: '01711-484006', category: 'Rajshahi Hospital', icon: './assets/ambulance.png' },
+      { id: 515, title: 'Rajshahi Royal Hospital (Main Line)', subtitle: 'রাজশাহী রয়্যাল হাসপাতাল (অফিস)', number: '0721-771277', category: 'Rajshahi Hospital', icon: './assets/ambulance.png' },
+
+      // --- ব্যাংক ---
+      { id: 701, title: 'Sonali Bank, Main Branch', subtitle: 'সোনালী ব্যাংক, প্রধান শাখা, রাজশাহী', number: '0721-772123', category: 'Rajshahi Bank', icon: './assets/emergency.png' },
+      { id: 702, title: 'Islami Bank, Main Branch', subtitle: 'ইসলামী ব্যাংক, স্টেশন রোড শাখা', number: '0721-775681', category: 'Rajshahi Bank', icon: './assets/emergency.png' },
+      { id: 703, title: 'Dutch-Bangla Bank, Main Branch', subtitle: 'ডাচ-বাংলা ব্যাংক, সাহেব বাজার', number: '0721-771191', category: 'Rajshahi Bank', icon: './assets/emergency.png' },
+      { id: 704, title: 'Agrani Bank, Main Branch', subtitle: 'অগ্রণী ব্যাংক, প্রধান শাখা, রাজশাহী', number: '0721-775260', category: 'Rajshahi Bank', icon: './assets/emergency.png' },
+      
+      // --- রাজশাহী শিক্ষা বোর্ড ও সংশ্লিষ্ট যোগাযোগ ---
+      { id: 601, title: 'Rajshahi Education Board (General)', subtitle: 'শিক্ষা বোর্ড (সাধারণ)', number: '0721-776270', category: 'Rajshahi Education', icon: './assets/emergency.png' },
+      { id: 602, title: 'REB Chairman Office', subtitle: 'শিক্ষা বোর্ড চেয়ারম্যানের অফিস', number: '0247811994', category: 'Rajshahi Education', icon: './assets/emergency.png' },
+      { id: 603, title: 'REB Chief Evaluation Officer', subtitle: 'প্রধান মূল্যায়ন অফিসার (মোবাইল)', number: '01670226000', category: 'Rajshahi Education', icon: './assets/emergency.png' },
+      { id: 604, title: 'REB Public Relations Officer', subtitle: 'গণসংযোগ অফিসার (মোবাইল)', number: '01755023329', category: 'Rajshahi Education', icon: './assets/emergency.png' },
+      { id: 605, title: 'Rajshahi Cantonment Board School & College', subtitle: 'ক্যান্টনমেন্ট বোর্ড স্কুল ও কলেজ', number: '01309126445', category: 'Rajshahi Education', icon: './assets/emergency.png' },
+      { id: 606, title: 'REB Model School & College', subtitle: 'আর.ই.বি মডেল স্কুল ও কলেজ', number: '01309134670', category: 'Rajshahi Education', icon: './assets/emergency.png' },
+      { id: 801, title: 'Rajshahi Polytechnic Institute', subtitle: 'কারিগরি শিক্ষা প্রতিষ্ঠান', number: '01919416534', category: 'Rajshahi Education', icon: './assets/emergency.png' },
+      { id: 802, title: 'Bangladesh Polytechnic Institute', subtitle: 'কারিগরি শিক্ষা প্রতিষ্ঠান, রাজশাহী', number: '01711023727', category: 'Rajshahi Education', icon: './assets/emergency.png' },
+      { id: 803, title: 'Rajshahi Medical College (Office)', subtitle: 'অফিসিয়াল যোগাযোগ', number: '02588857150', category: 'Rajshahi Education', icon: './assets/emergency.png' },
+      { id: 804, title: 'RUET, Rajshahi', subtitle: 'রাজশাহী প্রকৌশল ও প্রযুক্তি বিশ্ববিদ্যালয়', number: '0721-750105', category: 'Rajshahi Education', icon: './assets/emergency.png' },
+      
+      // --- নতুন যুক্ত করা অন্যান্য সরকারি সেবা ---
+      { id: 805, title: 'BTCL Helpline (Rajshahi)', subtitle: 'টেলিফোন সেবা', number: '16402', category: 'Govt.', icon: './assets/emergency.png' },
+      { id: 806, title: 'CEO, Rajshahi City Corporation', subtitle: 'প্রধান নির্বাহী কর্মকর্তা', number: '0721-772697', category: 'Govt.', icon: './assets/emergency.png' },
+      { id: 807, title: 'PDB, Rajshahi', subtitle: 'বিদ্যুৎ উন্নয়ন বোর্ড', number: '0721-774686', category: 'Rajshahi Electricity', icon: './assets/emergency.png' },
+
+      // --- অন্যান্য জাতীয় নম্বর ---
+      { id: 19, title: 'Brac Helpline', subtitle: 'ব্র্যাক সহায়তা', number: '16445', category: 'NGO', icon: './assets/brac.png' },
+      { id: 20, title: 'Bangladesh Railway Helpline', subtitle: 'রেলওয়ে তথ্য', number: '163', category: 'Travel', icon: './assets/Bangladesh-Railway.png' },
+      
+      // --- নতুন যুক্ত করা অতিরিক্ত জরুরি নম্বর (র‌্যাব, ডিসি, ওয়াসা, গ্যাস ইত্যাদি) ---
+      { id: 901, title: 'RAB-5 Headquarters, Rajshahi', subtitle: 'র্যাব-৫ সদর দপ্তর হটলাইন (আইন-শৃঙ্খলা)', number: '01777-720500', category: 'Rajshahi Police', icon: './assets/police.png' },
+      { id: 902, title: 'DC Office, Rajshahi', subtitle: 'জেলা প্রশাসক কার্যালয় (সাধারণ যোগাযোগ)', number: '0721-772023', category: 'Govt.', icon: './assets/emergency.png' },
+      { id: 903, title: 'UNO Office, Paba, Rajshahi', subtitle: 'পবা উপজেলা নির্বাহী কর্মকর্তার কার্যালয়', number: '0721-772300', category: 'Govt.', icon: './assets/emergency.png' },
+      { id: 904, title: 'Bakhrabad Gas Emergency', subtitle: 'বাখরাবাদ গ্যাস জরুরি অভিযোগ (টোল ফ্রি)', number: '08000-011000', category: 'Utility', icon: './assets/emergency.png' },
+      { id: 905, title: 'Rajshahi WASA (Water Supply)', subtitle: 'রাজশাহী ওয়াসা (পানি সরবরাহ অভিযোগ)', number: '0721-750570', category: 'Utility', icon: './assets/emergency.png' },
+      { id: 906, title: 'Legal Aid (Legal Assistance)', subtitle: 'সরকারি আইনি সহায়তা (টোল ফ্রি)', number: '16430', category: 'Help', icon: './assets/emergency.png' },
+    ];
+  }
+
+  document.addEventListener('DOMContentLoaded', init);
+})();
