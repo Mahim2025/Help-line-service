@@ -4,31 +4,38 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Emergency Hotline - Updated</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700;900&display=swap" rel="stylesheet">
   
-
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
-   /* 1. CSS অ্যানিমেশন কীফ্রেম - এটি অবশ্যই CSS-এ থাকতে হবে */
+   /* ⭐⭐ পরিবর্তন ২: Roboto ফন্ট পরিবার CSS-এ সেট করা হলো ⭐⭐ */
+   body {
+        font-family: 'Roboto', sans-serif;
+    }
+
+   /* 1. CSS অ্যানিমেশন কীফ্রেম */
 @keyframes marquee {
     0% {
-        transform: translateX(100%); /* ডান দিক থেকে শুরু */
+        transform: translateX(100%); 
     }
     100% {
-        transform: translateX(-100%); /* বাম দিকে শেষ */
+        transform: translateX(-100%); 
     }
 }
 
 /* 2. টেক্সট এলিমেন্টে অ্যানিমেশন প্রয়োগ */
 #animatedTitle {
-    /* অ্যানিমেশন নিয়ন্ত্রণ: 10 সেকেন্ড ধরে চলবে, ease-in-out গতিতে, অবিরাম */
-    animation: marquee 10s ease-in-out infinite; 
+    /* অ্যানিমেশন নিয়ন্ত্রণ: 12s করা হলো, যা আরও মসৃণ দেখাবে */
+    animation: marquee 12s ease-in-out infinite; 
     
-    /* ঐচ্ছিক: কিছু কাস্টম স্টাইল */
-    letter-spacing: 2px; /* ফন্টের ফাঁকা স্থান আরও বাড়ানো হলো */
+    /* অক্ষরের ফাঁকা স্থান বাড়ানো হলো (ট্র্যাকিং) */
+    letter-spacing: 4px; 
 }
     /* Base Soft Card Style */
     .soft-card {
@@ -41,8 +48,8 @@
 
     /* Card Hover Animation */
     .soft-card:hover {
-        transform: translateY(-4px) scale(1.01); /* সামান্য উপরে উঠবে ও বড় হবে */
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15); /* শ্যাডো গভীর হবে */
+        transform: translateY(-4px) scale(1.01); 
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15); 
     }
     
     /* Search Bar Placeholder Color */
@@ -64,11 +71,12 @@
 
     /* Card Entrance Class */
     .card-item {
-        animation: fadeIn 0.5s ease-out forwards; /* প্রতিটি কার্ডের জন্য */
-        opacity: 0; /* শুরুতে লুকানো থাকবে */
+        animation: fadeIn 0.5s ease-out forwards; 
+        opacity: 0; 
     }
   </style>
 </head>
+<body>
 <nav class="navbar bg-white bg-opacity-70 shadow sticky top-0 z-50">
   <div class="container mx-auto px-4 flex flex-col sm:flex-row items-center justify-between py-2 gap-3 sm:gap-0">
     
@@ -87,8 +95,8 @@
         style="text-align: center;"> 
         <h1 
             id="animatedTitle" 
-            class="whitespace-nowrap text-2xl md:text-3xl font-black text-red-600 drop-shadow-lg">
-            𝓡𝓐𝓙𝓢𝓗𝓐𝓗𝓘 𝓒𝓘𝓣𝓨 𝓔𝓜𝓔𝓡𝓖𝓔𝓝𝓒𝓨 𝓢𝓔𝓡𝓥𝓘𝓒𝓔 𝓓𝓘𝓡𝓔𝓒𝓣𝓞𝓡𝓨
+            class="whitespace-nowrap text-3xl font-black text-red-700 tracking-widest drop-shadow-[0_4px_8px_rgba(49,46,129,0.8)]">
+            RAJSHAHI CITY EMERGENCY SERVICE DIRECTORY
         </h1>
     </div>
     <div class="flex items-center gap-2 sm:gap-3">
@@ -191,7 +199,20 @@
   </div>
 </template>
 
-<script src="index.js"></script>
 
+
+<footer class="bg-gray-900 text-white py-6 mt-12">
+  <div class="container mx-auto text-center">
+    <p class="text-sm">&copy; 2025 Md Mahim Hosen | Rajshahi Polytechnic Institute</p>
+    <p class="text-sm">All Rights Reserved</p>
+    <div class="mt-2 space-x-4">
+      <a href="#" class="hover:text-blue-400">Home</a>
+      <a href="#" class="hover:text-blue-400">About</a>
+      <a href="#" class="hover:text-blue-400">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script src="index.js"></script>
 </body>
-</html>
+</html >
